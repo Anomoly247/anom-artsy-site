@@ -3,90 +3,123 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anom Artsy — Kids Corner</title>
+    <title>Kids Corner • Anom Artsy</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="dark-bg">
 
     <!-- NAVIGATION -->
-    <nav class="nav">
-        <div class="nav-left">
-            <img src="assets/site/ao-logo-neon-square.png" alt="AO Logo" class="nav-logo">
-            <span class="nav-title">Anom Artsy</span>
-        </div>
-
-        <div class="nav-right">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="gallery.html" class="nav-link">Gallery</a>
-            <a href="custom.html" class="nav-link">Custom Work</a>
-            <a href="merch.html" class="nav-link">Merch</a>
-            <a href="stories.html" class="nav-link">Stories</a>
-            <a href="kids-corner.html" class="nav-link active">Kids Corner</a>
-        </div>
-    </nav>
-
-    <!-- HERO -->
-    <header class="hero" style="background: url('ao-background-aqua-butterfly-heart-dream-14.png') center/cover no-repeat;">
-        <div class="hero-content">
-            <h1 class="hero-title">Anom’s Corner</h1>
-            <p class="hero-subtitle">Safe • Colorful • Fun</p>
+    <header class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ANOM ARTsy</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="custom.html">Custom</a>
+                <a href="merch.html">Merch</a>
+                <a href="stories.html">Stories</a>
+                <a href="kids-corner.html" class="active">Kids</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
         </div>
     </header>
 
-    <!-- INTRO -->
-    <section class="featured">
-        <h2 class="section-title">A Magical Space for Kids</h2>
-
-        <p style="max-width: 800px; margin: 0 auto 40px; color: #d6d6d6;">
-            A cozy digital nook where kids can enjoy short, expressive storybooks while parents explore
-            merch, art, and creative assets. Everything here is gentle, colorful, and age‑appropriate.
-        </p>
+    <!-- HERO -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="neon-title">Anom’s Kids Corner</h1>
+            <p class="hero-subtext">
+                A gentle, colorful, safe space for kids to enjoy stories, characters, and neon imagination.
+            </p>
+        </div>
     </section>
 
-    <!-- VIDEO + STORY LIST -->
-    <section class="featured">
-        <h2 class="section-title">Watch a Story</h2>
+    <!-- FEATURED STORY -->
+    <section class="content-section">
+        <div class="content-container">
 
-        <div class="featured-grid">
+            <h2 class="section-title neon-text">Featured Story</h2>
+            <p class="section-body">
+                Short, expressive stories designed for kids — soft visuals, simple emotions, and friendly characters.
+            </p>
 
-            <!-- VIDEO -->
-            <div class="featured-card">
+            <div class="gallery-grid">
+
+                <div class="gallery-card">
+                    <img src="assets/kids/pixel-dot.jpg" class="gallery-img" alt="Pixel & Dot" />
+                    <h3 class="gallery-title">Pixel & Dot’s New Adventure</h3>
+                    <p class="gallery-desc">
+                        Two neon siblings explore imagination, feelings, and friendship.
+                    </p>
+                    <a href="stories.html" class="cta-button" style="margin-top: 10px;">Read the Story</a>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/kids/butterfly-heart.jpg" class="gallery-img" alt="Butterfly Heart" />
+                    <h3 class="gallery-title">Butterfly Heart Forest</h3>
+                    <p class="gallery-desc">
+                        A magical neon forest where kindness makes the colors glow brighter.
+                    </p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/kids/dreamlight.jpg" class="gallery-img" alt="Dreamlight Castle" />
+                    <h3 class="gallery-title">Dreamlight Castle</h3>
+                    <p class="gallery-desc">
+                        A soft, glowing castle where dreams float like fireflies.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO SECTION -->
+    <section class="content-section">
+        <div class="content-container">
+            <h2 class="section-title neon-text">Watch a Story</h2>
+            <p class="section-body">
+                Gentle, colorful, kid‑friendly animations created with soft neon energy.
+            </p>
+
+            <div class="gallery-card" style="max-width: 700px; margin: auto;">
                 <video controls style="width: 100%; border-radius: 10px;">
-                    <source src="pixel_dot_full_story_final.mp4" type="video/mp4">
+                    <source src="assets/kids/pixel_dot_full_story.mp4" type="video/mp4">
                 </video>
-                <h3>Pixel & Dot’s New Adventure</h3>
-                <p>A gentle story about siblings, emotions, and imagination.</p>
+                <h3 class="gallery-title" style="margin-top: 15px;">Pixel & Dot — Full Story</h3>
+                <p class="gallery-desc">A calm, expressive neon story for kids.</p>
             </div>
-
-            <!-- STORY LIST -->
-            <div class="featured-card">
-                <h3>Upcoming Stories</h3>
-                <p>More colorful adventures are on the way:</p>
-                <ul style="margin-top: 12px; color: #d6d6d6; line-height: 1.8;">
-                    <li>Pixel & Dot: Debugging Day</li>
-                    <li>The Magic River Bridge</li>
-                    <li>Butterfly Heart Forest</li>
-                    <li>Dreamlight Castle</li>
-                </ul>
-            </div>
-
         </div>
     </section>
 
     <!-- PARENT NOTE -->
-    <section class="featured">
-        <h2 class="section-title">A Note for Parents</h2>
+    <section class="content-section">
+        <div class="content-container">
+            <h2 class="section-title neon-text">A Note for Parents</h2>
+            <p class="section-body">
+                Kids Corner is designed to be gentle, safe, and expressive.  
+                No loud effects, no harsh visuals — just soft neon storytelling and simple emotions.
+            </p>
+            <p class="section-body">
+                While your kids enjoy short stories and characters, you can explore merch, art, or custom work.
+            </p>
+        </div>
+    </section>
 
-        <p style="max-width: 800px; margin: 0 auto 30px; color: #d6d6d6;">
-            Every story is crafted with care — gentle themes, soft visuals, and expressive characters.
-            Kids can enjoy short digital adventures while you browse merch, explore art, or request custom work.
-        </p>
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">More Stories Coming Soon</h2>
+            <p class="cta-text">New characters, new adventures, and new neon magic.</p>
+            <a href="stories.html" class="cta-button">View All Stories</a>
+        </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <p>© 2026 Anom Artsy — All Rights Reserved</p>
+        <p>© 2026 Anom Originals • Identity in Every Pixel</p>
     </footer>
 
 </body>
