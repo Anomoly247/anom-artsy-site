@@ -3,79 +3,103 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anom Artsy — Gallery</title>
+    <title>Gallery • Anom Artsy</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="dark-bg">
 
     <!-- NAVIGATION -->
-    <nav class="nav">
-        <div class="nav-left">
-            <img src="assets/site/ao-logo-neon-square.png" alt="AO Logo" class="nav-logo">
-            <span class="nav-title">Anom Artsy</span>
-        </div>
-
-        <div class="nav-right">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="gallery.html" class="nav-link active">Gallery</a>
-            <a href="custom.html" class="nav-link">Custom Work</a>
-            <a href="merch.html" class="nav-link">Merch</a>
-            <a href="stories.html" class="nav-link">Stories</a>
-            <a href="kids-corner.html" class="nav-link">Kids Corner</a>
-        </div>
-    </nav>
-
-    <!-- HERO -->
-    <header class="hero" style="background: url('ao-background-neon-cosmic-muse-03.png') center/cover no-repeat;">
-        <div class="hero-content">
-            <h1 class="hero-title">Gallery</h1>
-            <p class="hero-subtitle">A curated world of neon, fantasy, identity, and expression.</p>
+    <header class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ANOM ARTsy</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="gallery.html" class="active">Gallery</a>
+                <a href="custom.html">Custom</a>
+                <a href="merch.html">Merch</a>
+                <a href="stories.html">Stories</a>
+                <a href="kids-corner.html">Kids</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
         </div>
     </header>
 
+    <!-- HERO -->
+    <section class="hero-section gallery-hero">
+        <div class="hero-content">
+            <h1 class="neon-title">Neon Identity Gallery</h1>
+            <p class="hero-subtext">
+                A curated collection of neon portraits, moods, environments, and identity-driven visuals.
+            </p>
+        </div>
+    </section>
+
     <!-- GALLERY GRID -->
-    <section class="featured">
-        <h2 class="section-title">Art Collections</h2>
+    <section class="content-section">
+        <div class="content-container">
 
-        <div class="featured-grid">
+            <h2 class="section-title neon-text">Featured Works</h2>
+            <p class="section-body">
+                Every piece here was crafted with intention — built around personality, mood, and story.
+            </p>
 
-            <div class="featured-card">
-                <img src="ao-card-profile-visuals.png" alt="Profile Visuals">
-                <h3>Profile Visuals</h3>
+            <div class="gallery-grid">
+
+                <!-- GALLERY ITEM -->
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece1.jpg" alt="Neon Portrait" class="gallery-img" />
+                    <h3 class="gallery-title">Neon Identity Portrait</h3>
+                    <p class="gallery-desc">Glow, depth, and personality in one frame.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece2.jpg" alt="Mood Art" class="gallery-img" />
+                    <h3 class="gallery-title">Mood Collection</h3>
+                    <p class="gallery-desc">Expressive neon art for emotion and storytelling.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece3.jpg" alt="4K Background" class="gallery-img" />
+                    <h3 class="gallery-title">4K Background</h3>
+                    <p class="gallery-desc">Custom neon environments built for creators.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece4.jpg" alt="Merch Design" class="gallery-img" />
+                    <h3 class="gallery-title">Merch Design</h3>
+                    <p class="gallery-desc">High-impact neon graphics for apparel and products.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece5.jpg" alt="Motion Art" class="gallery-img" />
+                    <h3 class="gallery-title">Motion Art</h3>
+                    <p class="gallery-desc">MP4 neon loops for displays and digital frames.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece6.jpg" alt="Identity System" class="gallery-img" />
+                    <h3 class="gallery-title">Identity System</h3>
+                    <p class="gallery-desc">Visual systems built around your vibe and brand.</p>
+                </div>
+
             </div>
+        </div>
+    </section>
 
-            <div class="featured-card">
-                <img src="ao-card-enchanted-forest.png" alt="Enchanted Forest">
-                <h3>Enchanted Forest</h3>
-            </div>
-
-            <div class="featured-card">
-                <img src="ao-card-still-dangerous-full.png" alt="Still Dangerous">
-                <h3>Still Dangerous</h3>
-            </div>
-
-            <div class="featured-card">
-                <img src="ao-card-anom-crystal-splash-full.png" alt="Crystal Splash">
-                <h3>Crystal Splash</h3>
-            </div>
-
-            <div class="featured-card">
-                <img src="ao-card-winging-it-since-forever-full.png" alt="Winging It">
-                <h3>Winging It</h3>
-            </div>
-
-            <div class="featured-card">
-                <img src="ao-card-the-vip-rope.png" alt="VIP Rope">
-                <h3>VIP Rope</h3>
-            </div>
-
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Want Your Own Piece?</h2>
+            <p class="cta-text">Let’s build something unmistakably you.</p>
+            <a href="custom.html" class="cta-button">Start a Custom Request</a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <p>© 2026 Anom Artsy — All Rights Reserved</p>
+        <p>© 2026 Anom Originals • Identity in Every Pixel</p>
     </footer>
 
 </body>
