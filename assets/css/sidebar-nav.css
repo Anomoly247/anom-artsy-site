@@ -1,0 +1,34 @@
+/* AO Universe — Sidebar Navigation CSS */
+
+.ao-wrapper { display: flex; min-height: 100vh; background: #0d0d0d; color: #f0f0f0; font-family: 'Segoe UI', sans-serif; }
+
+.ao-sidebar { width: 240px; min-width: 240px; background: #111; border-right: 1px solid #2a2a2a; padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+
+.ao-sidebar .site-logo { font-size: 1.2rem; font-weight: 700; color: #c084fc; text-decoration: none; display: block; margin-bottom: 1.5rem; }
+
+.ao-sidebar nav ul { list-style: none; padding: 0; margin: 0; }
+.ao-sidebar nav ul li { margin-bottom: 0.25rem; }
+.ao-sidebar nav ul li a { display: block; padding: 0.5rem 0.75rem; color: #ccc; text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: background 0.2s, color 0.2s; }
+.ao-sidebar nav ul li a:hover, .ao-sidebar nav ul li a.active { background: #1e1e2e; color: #c084fc; }
+
+.ao-sidebar nav ul ul { margin-left: 1rem; border-left: 2px solid #2a2a2a; padding-left: 0.5rem; }
+.ao-sidebar nav ul ul li a { font-size: 0.85rem; color: #aaa; }
+.ao-sidebar nav ul ul li a:hover { color: #e879f9; }
+
+.nav-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #555; padding: 0.75rem 0.75rem 0.25rem; display: block; }
+
+.ao-content { flex: 1; padding: 2rem 2.5rem; max-width: 860px; }
+.ao-content h1 { font-size: 2rem; color: #c084fc; }
+.ao-content h2 { font-size: 1.4rem; color: #a78bfa; margin-top: 2rem; border-bottom: 1px solid #2a2a2a; padding-bottom: 0.4rem; }
+.ao-content h3 { font-size: 1.1rem; color: #e879f9; }
+.ao-content p { color: #ccc; line-height: 1.7; }
+.ao-content a { color: #818cf8; text-decoration: none; }
+.ao-content a:hover { color: #c084fc; text-decoration: underline; }
+.ao-content code { background: #1e1e2e; padding: 0.15em 0.45em; border-radius: 4px; font-size: 0.9em; color: #e879f9; }
+
+@media (max-width: 768px) {
+  .ao-wrapper { flex-direction: column; }
+  .ao-sidebar { width: 100%; min-width: unset; height: auto; position: relative; border-right: none; border-bottom: 1px solid #2a2a2a; }
+  .ao-sidebar nav ul { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .ao-content { padding: 1.25rem; }
+}
