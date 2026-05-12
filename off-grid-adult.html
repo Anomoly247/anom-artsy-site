@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AO Off-Grid Simulator | Adult Edition</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0d12;color:#e2e8f0;font-family:'Segoe UI',sans-serif;min-height:100vh}
+nav{background:rgba(10,13,18,.97);border-bottom:2px solid #7c3aed;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Brush Script MT',cursive;font-size:1.8rem;color:#a78bfa;text-decoration:none}
+.nav-back{color:#64748b;text-decoration:none;font-size:.85rem;border:1px solid #334155;padding:.4rem 1rem;border-radius:50px;transition:all .2s}
+.nav-back:hover{border-color:#7c3aed;color:#a78bfa}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem;background:radial-gradient(ellipse at center,rgba(124,58,237,.1) 0%,transparent 65%)}
+.badge{display:inline-block;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;font-weight:700;font-size:.75rem;padding:.35rem 1rem;border-radius:50px;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;color:#a78bfa;margin-bottom:.5rem;text-shadow:0 0 30px rgba(167,139,250,.3)}
+.hero p{color:#64748b;font-size:.95rem;max-width:560px;margin:0 auto;line-height:1.6}
+.main{max-width:960px;margin:0 auto;padding:1.5rem 1.5rem 3rem}
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.25rem}
+@media(max-width:640px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:#0f1520;border:1px solid #1e293b;border-radius:14px;padding:1rem;text-align:center;transition:border-color .3s}
+.stat-card.danger{border-color:#dc2626}
+.stat-card.warning{border-color:#d97706}
+.stat-icon{font-size:1.6rem;margin-bottom:.3rem}
+.stat-name{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#475569;margin-bottom:.5rem}
+.stat-bar{background:rgba(255,255,255,.06);border-radius:6px;height:8px;overflow:hidden;margin-bottom:.3rem}
+.stat-fill{height:100%;border-radius:6px;transition:width .5s}
+.stat-val{font-size:.9rem;font-weight:700}
+/* FINANCES */
+.finance-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+@media(max-width:640px){.finance-row{grid-template-columns:1fr 1fr}}
+.finance-box{background:#0f1520;border:1px solid #1e293b;border-radius:12px;padding:.9rem;text-align:center}
+.finance-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin-bottom:.3rem}
+.finance-val{font-size:1.15rem;font-weight:800}
+/* HUD */
+.hud{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.hud-box{background:#0f1520;border:1px solid #1e293b;border-radius:10px;padding:.65rem 1rem;flex:1;text-align:center;min-width:100px}
+.hud-label{font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.2rem}
+.hud-val{font-size:1.1rem;font-weight:900;color:#a78bfa}
+/* SEASON PROGRESS */
+.progress-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.progress-bar{flex:1;background:rgba(255,255,255,.06);border-radius:6px;height:7px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#db2777);border-radius:6px;transition:width .5s}
+.prog-label{font-size:.75rem;color:#475569;white-space:nowrap}
+/* SCENARIO CARD */
+.scenario-card{background:#0f1520;border:1px solid #1e293b;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;transition:border-color .3s}
+.scenario-card.urgent{border-color:#dc2626;background:rgba(220,38,38,.03)}
+.scenario-card.opportunity{border-color:#7c3aed;background:rgba(124,58,237,.03)}
+.scenario-card.neutral{border-color:#0ea5e9;background:rgba(14,165,233,.03)}
+.scenario-icon{font-size:2.5rem;text-align:center;margin-bottom:.75rem}
+.scenario-title{font-size:1.15rem;font-weight:800;color:#e2e8f0;text-align:center;margin-bottom:.5rem}
+.scenario-type{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;text-align:center;margin-bottom:.75rem;font-weight:700}
+.scenario-type.urgent{color:#ef4444}
+.scenario-type.opportunity{color:#a78bfa}
+.scenario-type.neutral{color:#38bdf8}
+.scenario-text{font-size:.9rem;color:#94a3b8;line-height:1.7;text-align:center;margin-bottom:1.25rem}
+.choices{display:grid;gap:.6rem}
+.choice-btn{background:rgba(255,255,255,.04);border:1px solid #1e293b;border-radius:12px;padding:1rem 1.25rem;cursor:pointer;font-size:.88rem;color:#cbd5e1;transition:all .25s;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:center;width:100%}
+.choice-btn:hover:not(:disabled){border-color:#7c3aed;background:rgba(124,58,237,.08);transform:translateY(-2px)}
+.choice-btn:disabled{opacity:.5;cursor:not-allowed}
+.choice-icon{font-size:1.5rem}
+.choice-text{text-align:left}
+.choice-cost{font-size:.75rem;color:#475569;white-space:nowrap;text-align:right}
+.choice-cost.spend{color:#f87171}
+.choice-cost.earn{color:#4ade80}
+/* LESSON */
+.lesson-panel{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(219,39,119,.08));border:1px solid #7c3aed;border-radius:16px;padding:1.25rem;margin-bottom:1.25rem;display:none}
+.lesson-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:#a78bfa;font-weight:700;margin-bottom:.4rem}
+.lesson-title{font-size:1rem;font-weight:800;color:#e2e8f0;margin-bottom:.4rem}
+.lesson-text{font-size:.87rem;color:#94a3b8;line-height:1.65;margin-bottom:.6rem}
+.lesson-takeaway{background:rgba(167,139,250,.1);border-left:3px solid #a78bfa;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.82rem;color:#c4b5fd;font-style:italic}
+/* LOG */
+.log-box{background:#0a0d12;border:1px solid #1e293b;border-radius:12px;padding:1rem;margin-bottom:1.25rem;max-height:140px;overflow-y:auto}
+.log-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:#475569;margin-bottom:.5rem}
+.log-entry{font-size:.8rem;color:#64748b;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.03);line-height:1.5}
+.log-entry:last-child{border-bottom:none}
+.log-entry.good{color:#4ade80}
+.log-entry.bad{color:#f87171}
+.log-entry.info{color:#60a5fa}
+/* END SCREEN */
+.end-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;align-items:center;justify-content:center;padding:1rem}
+.end-overlay.show{display:flex}
+.end-box{background:#0f1520;border:2px solid #7c3aed;border-radius:24px;padding:2.5rem;max-width:480px;width:100%;text-align:center}
+.end-emoji{font-size:4rem;margin-bottom:.75rem}
+.end-title{font-size:1.7rem;font-weight:900;color:#a78bfa;margin-bottom:.5rem}
+.end-score{font-size:1.1rem;color:#64748b;margin-bottom:1rem}
+.end-stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.5rem}
+.end-stat{background:rgba(255,255,255,.04);border-radius:10px;padding:.75rem;font-size:.85rem}
+.end-stat-val{font-size:1.2rem;font-weight:800;color:#a78bfa;margin-bottom:.2rem}
+.end-stat-label{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.end-msg{font-size:.88rem;color:#94a3b8;line-height:1.65;margin-bottom:1.5rem}
+.btn-restart{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;font-weight:800;border:none;padding:.9rem 2.5rem;border-radius:50px;cursor:pointer;font-size:.95rem;transition:all .3s}
+.btn-restart:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(124,58,237,.4)}
+footer{text-align:center;padding:2rem;color:#475569;font-size:.8rem;border-top:1px solid rgba(255,255,255,.05)}
+footer span{font-family:'Brush Script MT',cursive;color:#a78bfa;font-size:1rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Anom</a>
+  <a class="nav-back" href="games.html">← Back to Games</a>
+</nav>
+
+<div class="hero">
+  <div class="badge">⚡ Adult Edition — Real Decisions, Real Lessons</div>
+  <h1>AO OFF-GRID SIMULATOR</h1>
+  <p>Manage a real off-grid homestead through 12 months. Balance energy, water, finances, and food while navigating real-world scenarios with practical lessons built in.</p>
+</div>
+
+<div class="main">
+
+  <div class="progress-row">
+    <span class="prog-label">Month <span id="prog-month">1</span>/12</span>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:8%"></div></div>
+    <span class="prog-label" id="prog-season">January</span>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-box"><div class="hud-label">Month</div><div class="hud-val" id="hud-month">Jan</div></div>
+    <div class="hud-box"><div class="hud-label">Year</div><div class="hud-val" id="hud-year">Y1</div></div>
+    <div class="hud-box"><div class="hud-label">Net Worth</div><div class="hud-val" id="hud-net" style="color:#4ade80">$0</div></div>
+    <div class="hud-box"><div class="hud-label">Decisions</div><div class="hud-val" id="hud-decisions">0</div></div>
+  </div>
+
+  <!-- FINANCES -->
+  <div class="finance-row">
+    <div class="finance-box">
+      <div class="finance-label">Cash Savings</div>
+      <div class="finance-val" id="fin-cash" style="color:#4ade80">$8,500</div>
+    </div>
+    <div class="finance-box">
+      <div class="finance-label">Monthly Income</div>
+      <div class="finance-val" id="fin-income" style="color:#60a5fa">$0</div>
+    </div>
+    <div class="finance-box">
+      <div class="finance-label">Monthly Costs</div>
+      <div class="finance-val" id="fin-costs" style="color:#f87171">$320</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card" id="sc-energy">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-name">Energy System</div>
+      <div class="stat-bar"><div class="stat-fill" id="sf-energy" style="width:65%;background:linear-gradient(90deg,#fbbf24,#f59e0b)"></div></div>
+      <div class="stat-val" id="sv-energy" style="color:#fbbf24">65%</div>
+    </div>
+    <div class="stat-card" id="sc-water">
+      <div class="stat-icon">💧</div>
+      <div class="stat-name">Water System</div>
+      <div class="stat-bar"><div class="stat-fill" id="sf-water" style="width:55%;background:linear-gradient(90deg,#38bdf8,#0ea5e9)"></div></div>
+      <div class="stat-val" id="sv-water" style="color:#38bdf8">55%</div>
+    </div>
+    <div class="stat-card" id="sc-food">
+      <div class="stat-icon">🌾</div>
+      <div class="stat-name">Food Security</div>
+      <div class="stat-bar"><div class="stat-fill" id="sf-food" style="width:40%;background:linear-gradient(90deg,#4ade80,#22c55e)"></div></div>
+      <div class="stat-val" id="sv-food" style="color:#4ade80">40%</div>
+    </div>
+    <div class="stat-card" id="sc-health">
+      <div class="stat-icon">🧘</div>
+      <div class="stat-name">Wellbeing</div>
+      <div class="stat-bar"><div class="stat-fill" id="sf-health" style="width:70%;background:linear-gradient(90deg,#f472b6,#ec4899)"></div></div>
+      <div class="stat-val" id="sv-health" style="color:#f472b6">70%</div>
+    </div>
+  </div>
+
+  <!-- LESSON PANEL -->
+  <div class="lesson-panel" id="lesson-panel">
+    <div class="lesson-tag">📖 Real-World Lesson</div>
+    <div class="lesson-title" id="lesson-title"></div>
+    <div class="lesson-text" id="lesson-text"></div>
+    <div class="lesson-takeaway" id="lesson-takeaway"></div>
+  </div>
+
+  <!-- SCENARIO -->
+  <div class="scenario-card" id="scenario-card">
+    <div class="scenario-icon" id="sc-icon">🏡</div>
+    <div class="scenario-title" id="sc-title">Welcome to Year One</div>
+    <div class="scenario-type neutral" id="sc-type">GETTING STARTED</div>
+    <div class="scenario-text" id="sc-text">You have just moved onto your off-grid property. You have $8,500 in savings, a small solar array, a well, and basic infrastructure. Every decision you make this year will shape your homestead's future.</div>
+    <div class="choices" id="choices"></div>
+  </div>
+
+  <!-- EVENT LOG -->
+  <div class="log-box">
+    <div class="log-title">📋 Decision Log</div>
+    <div id="log-entries"></div>
+  </div>
+
+</div>
+
+<div class="end-overlay" id="end-overlay">
+  <div class="end-box">
+    <div class="end-emoji" id="end-emoji">🏡</div>
+    <div class="end-title" id="end-title">Year Complete</div>
+    <div class="end-score" id="end-score">12 months on the land</div>
+    <div class="end-stats">
+      <div class="end-stat"><div class="end-stat-val" id="es-cash">$0</div><div class="end-stat-label">Final Savings</div></div>
+      <div class="end-stat"><div class="end-stat-val" id="es-decisions">0</div><div class="end-stat-label">Decisions Made</div></div>
+      <div class="end-stat"><div class="end-stat-val" id="es-energy">0%</div><div class="end-stat-label">Energy System</div></div>
+      <div class="end-stat"><div class="end-stat-val" id="es-food">0%</div><div class="end-stat-label">Food Security</div></div>
+    </div>
+    <div class="end-msg" id="end-msg"></div>
+    <button class="btn-restart" onclick="restartGame()">Start Year 2 →</button>
+  </div>
+</div>
+
+<footer>
+  <p>AO Off-Grid Simulator &mdash; Adult Edition by <span>Anom</span> &copy; 2026 AO Universe</p>
+</footer>
+
+<script>
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const scenarios=[
+  {
+    icon:'⚡',title:'Solar System Upgrade',type:'opportunity',mood:'opportunity',
+    text:'A solar installer is offering a 4kW panel upgrade for $2,800 installed. Your current 1kW system barely covers basics. This upgrade would also qualify you for a 30% federal tax credit ($840 back next April).',
+    choices:[
+      {icon:'✅',text:'Invest in the upgrade now',cost:'−$2,800',costType:'spend',
+       effect:{cash:-2800,energy:30,water:0,food:0,health:10,income:150,costs:0},
+       lesson:{title:'Solar ROI and Federal Tax Credits',text:'A 4kW solar system produces roughly 400-600 kWh/month depending on location. At $0.13/kWh average grid rate, that\'s $52–78/month in avoided costs. The 30% federal Investment Tax Credit (ITC) reduces your tax bill dollar-for-dollar — not just a deduction. A $2,800 system gets $840 back, making your real cost $1,960. Payback period: roughly 2–3 years.',takeaway:'Key insight: Always calculate solar ROI including the ITC, net metering credits, and avoided utility costs — not just the sticker price.'}},
+      {icon:'⏳',text:'Wait and save more cash first',cost:'No cost',costType:'',
+       effect:{cash:0,energy:-5,water:0,food:0,health:-5,income:0,costs:0},
+       lesson:{title:'Opportunity Cost in Off-Grid Planning',text:'Delaying a solar upgrade has a real cost: you continue paying for diesel, propane, or running a generator — often $150–300/month in fuel alone. A $2,800 upgrade that saves $200/month pays for itself in 14 months. Waiting 6 months to "save more" actually costs you $1,200 in fuel you\'ll never get back.',takeaway:'Key insight: Calculate the cost of waiting, not just the cost of acting. Delayed infrastructure often costs more in the long run.'}},
+      {icon:'🔌',text:'Buy used panels and DIY install',cost:'−$900',costType:'spend',
+       effect:{cash:-900,energy:15,water:0,food:0,health:5,income:60,costs:0},
+       lesson:{title:'DIY Solar vs. Professional Installation',text:'Used panels (often 85–95% efficient) cost $0.30–0.60/watt vs $2.50–3.50/watt new. However: DIY installations typically don\'t qualify for the 30% federal tax credit, may void equipment warranties, and can create insurance or permitting issues. The real math often favors professional installation when tax credits are factored in.',takeaway:'Key insight: DIY saves upfront but may cost more over 5–10 years when you account for missed tax credits and warranty protection.'}}
+    ]
+  },
+  {
+    icon:'💧',title:'Well Pump Failure',type:'urgent',mood:'urgent',
+    text:'Your well pump stopped working at 2am. You have 3 days of water stored. A new submersible pump costs $800 installed, or you can attempt a DIY repair with a $120 parts kit. You also have a neighbor 2 miles away who could share water temporarily.',
+    choices:[
+      {icon:'🔧',text:'DIY repair with parts kit',cost:'−$120',costType:'spend',
+       effect:{cash:-120,energy:0,water:15,food:0,health:-10,income:0,costs:0},
+       lesson:{title:'Well System Basics and Emergency Prep',text:'Submersible well pumps fail for predictable reasons: worn capacitors ($15–40), pressure switch failure ($30–60), or motor burnout ($300–600). A basic well troubleshooting kit — multimeter, pressure gauge, capacitor tester — costs under $100 and can diagnose 70% of failures. Every off-gridder should know how to pull and inspect their pump.',takeaway:'Key insight: Keep a spare pressure switch and capacitor on hand. These two parts cause 60% of all pump failures and take 30 minutes to swap.'}},
+      {icon:'💰',text:'Pay for professional replacement',cost:'−$800',costType:'spend',
+       effect:{cash:-800,energy:0,water:30,food:0,health:10,income:0,costs:0},
+       lesson:{title:'Emergency Fund and Infrastructure Reserves',text:'Every off-grid homestead needs a dedicated infrastructure emergency fund — minimum $3,000–5,000. Pumps, inverters, and batteries fail without warning. Professional replacement ensures correct sizing, proper wiring, and warranty coverage. A well pump pulling from the wrong depth will fail again within 2 years.',takeaway:'Key insight: Budget 1–2% of your homestead\'s total value per year for maintenance and emergency repairs. This is not optional.'}},
+      {icon:'🤝',text:'Borrow neighbor\'s water and research the fix',cost:'No cost',costType:'',
+       effect:{cash:0,energy:0,water:-10,food:0,health:5,income:0,costs:0},
+       lesson:{title:'Community Resilience in Off-Grid Living',text:'Off-grid living is often portrayed as isolation, but the most successful homesteaders build reciprocal relationships with neighbors. Water sharing, equipment lending, and skill trading reduce everyone\'s costs and risk. A neighbor who shares water today is someone you help with fencing next month.',takeaway:'Key insight: Your neighbor network is infrastructure. Invest in relationships as deliberately as you invest in solar panels.'}}
+    ]
+  },
+  {
+    icon:'🌱',title:'Food Forest Opportunity',type:'opportunity',mood:'opportunity',
+    text:'A local permaculture designer offers a food forest plan and starter plants for $450. This would take 1–2 years to produce food but eventually provide 40–60% of your produce needs for decades with minimal maintenance.',
+    choices:[
+      {icon:'🌳',text:'Invest in the food forest now',cost:'−$450',costType:'spend',
+       effect:{cash:-450,energy:0,water:-5,food:20,health:15,income:0,costs:-30},
+       lesson:{title:'Food Forest Economics and Permaculture',text:'A mature food forest (years 3–10) can produce 1,000–5,000 lbs of food per year from a quarter-acre plot. Initial investment: $300–600 in plants, $0 in ongoing costs. Compare to grocery spending: the average American spends $4,000–6,000/year on food. A food forest replaces 40–60% of that permanently, generating $1,600–3,600/year in food value with no annual cost.',takeaway:'Key insight: Food forests are the highest long-term ROI investment in off-grid food security. The work is upfront; the returns are forever.'}},
+      {icon:'🥕',text:'Start a traditional annual vegetable garden instead',cost:'−$150',costType:'spend',
+       effect:{cash:-150,energy:0,water:-10,food:10,health:10,income:0,costs:-15},
+       lesson:{title:'Annual vs. Perennial Food Systems',text:'Annual gardens (replanted each year) produce food fast but require ongoing labor and seeds every season. Perennial systems (fruit trees, berry bushes, herbs) require more patience but deliver food for 10–50 years. Smart homesteaders layer both: annuals for immediate production, perennials building long-term abundance.',takeaway:'Key insight: Grow annuals for this year\'s food. Plant perennials for your future self. Both are essential in a complete food system.'}},
+      {icon:'📚',text:'Take a free permaculture course online first',cost:'No cost',costType:'',
+       effect:{cash:0,energy:0,water:0,food:5,health:10,income:0,costs:0},
+       lesson:{title:'Education as Infrastructure Investment',text:'Permaculture design courses (PDC) teach you to read land, water, and sun patterns to design self-sustaining systems. A $0 YouTube education gives you 80% of what you need to design your own food forest — saving the $450 designer fee and ensuring the design fits YOUR specific land conditions.',takeaway:'Key insight: Skills you own are infrastructure that can never break down. Budget time for learning as seriously as you budget money for equipment.'}}
+    ]
+  },
+  {
+    icon:'🌡️',title:'Winter Heating Crisis',type:'urgent',mood:'urgent',
+    text:'January temperatures dropped to -15°F. Your propane heating system is working but burning through your $1,200 propane reserve faster than expected. At this rate you\'ll run out in 3 weeks. Refill costs $600 now or $900 if you wait and need emergency delivery.',
+    choices:[
+      {icon:'🪵',text:'Install a wood stove backup — $800',cost:'−$800',costType:'spend',
+       effect:{cash:-800,energy:10,water:0,food:0,health:15,income:0,costs:-80},
+       lesson:{title:'Backup Heating Systems and Fuel Diversity',text:'Over-reliance on one heating fuel is one of the most dangerous mistakes in off-grid living. A wood stove install ($600–1,500) provides a propane-free heat backup that uses renewable fuel you can harvest locally. In extreme cold, a wood stove can maintain 60–65°F even when propane is gone. Many off-gridders also use a masonry rocket mass heater, which burns 80–90% less wood than a traditional stove.',takeaway:'Key insight: Every off-grid home needs at least two independent heating systems. Fuel diversity is survival resilience.'}},
+      {icon:'📞',text:'Order propane refill now at $600',cost:'−$600',costType:'spend',
+       effect:{cash:-600,energy:5,water:0,food:0,health:5,income:0,costs:0},
+       lesson:{title:'Propane Budgeting and Consumption Tracking',text:'Average propane consumption for heating: 1 gallon = 91,500 BTU. A 1,500 sq ft well-insulated home needs roughly 800–1,200 gallons per winter. Always maintain a minimum 25% tank reserve — most suppliers charge emergency delivery premiums of 20–40% for last-minute orders. Track your daily usage on a spreadsheet during cold months.',takeaway:'Key insight: Monitor propane levels weekly in winter and order at 30% tank level — never below. Emergency delivery costs 30–40% more.'}},
+      {icon:'🧥',text:'Reduce interior temperature to 58°F and layer up',cost:'No cost',costType:'',
+       effect:{cash:0,energy:5,water:0,food:0,health:-15,income:0,costs:-40},
+       lesson:{title:'Cold Weather Health Risks and Insulation',text:'Keeping indoor temperatures at 55–58°F extends propane significantly but creates real health risks: hypothermia risk increases sharply below 65°F for elderly, children, and people with heart conditions. Short-term solution, not a strategy. However, improving insulation — spray foam in attic ($800–2,000) — can cut heating needs by 30–50% permanently.',takeaway:'Key insight: Thermal comfort is a health necessity, not a luxury. Solve the root cause (insulation) rather than tolerating dangerous temperatures.'}}
+    ]
+  },
+  {
+    icon:'💼',title:'Income Stream Decision',type:'opportunity',mood:'opportunity',
+    text:'You\'ve been offered three different income opportunities that work with your off-grid lifestyle. Your homestead needs at least $400/month to cover property tax, insurance, maintenance, and supplies.',
+    choices:[
+      {icon:'🌿',text:'Sell produce and herbs at the farmers market',cost:'$200 startup',costType:'spend',
+       effect:{cash:-200,energy:0,water:-5,food:-10,health:15,income:350,costs:20},
+       lesson:{title:'Homestead-Based Income Streams',text:'Market gardening on just 1/10 acre can generate $10,000–20,000/year gross revenue with intensive methods. Specialty crops — microgreens ($30–50/lb), herbs ($8–15/bunch), edible flowers ($15–25/punnet) — generate far more per square foot than commodity vegetables. Most successful market gardeners net $2–4 per square foot of growing space.',takeaway:'Key insight: Focus on high-value specialty crops over commodity produce. 100 sq ft of microgreens ($50–100/week) outperforms 1,000 sq ft of tomatoes in income per hour worked.'}},
+      {icon:'💻',text:'Remote consulting work online',cost:'No startup cost',costType:'',
+       effect:{cash:0,energy:-10,water:0,food:0,health:5,income:600,costs:30},
+       lesson:{title:'Hybrid Income: Remote Work + Homesteading',text:'The most financially resilient off-gridders combine remote income with homestead production. Remote work provides cash stability; homestead production reduces cash needs. A $600/month remote income + $300/month in avoided food costs = $900/month effective income. This hybrid model lets you build infrastructure without financial panic.',takeaway:'Key insight: Remote income buys you time to build homestead systems without financial desperation. Systems built under financial pressure are rarely built well.'}},
+      {icon:'🏕️',text:'Offer off-grid tours and workshops',cost:'−$300 setup',costType:'spend',
+       effect:{cash:-300,energy:0,water:0,food:0,health:20,income:400,costs:50},
+       lesson:{title:'Agritourism and Educational Income',text:'Off-grid homestead tours ($20–50/person) and workshops ($75–200/person) leverage the knowledge you\'re already building. Agritourism is one of the fastest-growing segments in rural income. A single weekend workshop with 10 participants at $150 = $1,500 gross. Many states offer grants for agritourism development.',takeaway:'Key insight: Your off-grid journey is curriculum. Document everything — your mistakes and solutions become a course that people will pay to learn from.'}}
+    ]
+  },
+  {
+    icon:'🔋',title:'Battery Bank Decision',type:'opportunity',mood:'opportunity',
+    text:'Your current lead-acid batteries are 4 years old and losing capacity — you\'re getting only 60% of rated storage. You have three options to address this before the next winter.',
+    choices:[
+      {icon:'⚡',text:'Upgrade to lithium iron phosphate (LiFePO4) — $2,200',cost:'−$2,200',costType:'spend',
+       effect:{cash:-2200,energy:35,water:0,food:0,health:10,income:0,costs:-60},
+       lesson:{title:'LiFePO4 vs Lead-Acid Battery Systems',text:'LiFePO4 batteries last 2,000–5,000 cycles vs 300–500 for lead-acid. They also deliver 95–98% of rated capacity vs 50% usable in lead-acid (you can\'t discharge lead-acid below 50% without damage). True cost comparison: $2,200 LiFePO4 / 3,000 cycles = $0.73/cycle. $800 lead-acid / 400 cycles = $2.00/cycle. LiFePO4 is 63% cheaper per cycle.',takeaway:'Key insight: LiFePO4 batteries have a higher sticker price but 3–5x lower lifetime cost. This is the single most impactful battery upgrade in off-grid energy storage.'}},
+      {icon:'🔄',text:'Replace with new lead-acid batteries — $650',cost:'−$650',costType:'spend',
+       effect:{cash:-650,energy:15,water:0,food:0,health:5,income:0,costs:-20},
+       lesson:{title:'Lead-Acid Battery Maintenance and Care',text:'New flooded lead-acid batteries last 4–7 years when properly maintained: equalization charges monthly, distilled water top-ups every 2–3 months, keeping charge above 50% at all times, and storing at 77°F. Temperature matters hugely — capacity drops 25% at freezing and 50% at 0°F. A well-maintained battery bank outperforms a neglected premium system.',takeaway:'Key insight: Battery maintenance is as important as battery type. Set monthly maintenance reminders and log specific gravity readings to track degradation early.'}},
+      {icon:'☀️',text:'Add more solar panels to compensate',cost:'−$800',costType:'spend',
+       effect:{cash:-800,energy:10,water:0,food:0,health:5,income:80,costs:0},
+       lesson:{title:'Balancing Solar Input vs. Storage Capacity',text:'Adding panels to compensate for inadequate storage is like filling a leaky bucket faster. Your panels already produce more than your batteries can store midday. The real problem is storage, not generation. A balanced system rule of thumb: 1 kWh of usable storage per 100W of panels. Fix storage first, then optimize generation.',takeaway:'Key insight: Always fix your system\'s bottleneck, not the input to the bottleneck. More solar with poor storage wastes money and degrades batteries faster through overcharging.'}}
+    ]
+  },
+  {
+    icon:'🏥',title:'Medical Preparedness',type:'neutral',mood:'neutral',
+    text:'Living 45 minutes from the nearest hospital, you realize your medical preparedness is thin. You have a basic first aid kit and that\'s it. What do you prioritize?',
+    choices:[
+      {icon:'🩺',text:'Complete a Wilderness First Responder course — $650',cost:'−$650',costType:'spend',
+       effect:{cash:-650,energy:0,water:0,food:0,health:30,income:0,costs:0},
+       lesson:{title:'Medical Self-Reliance in Remote Living',text:'Wilderness First Responder (WFR) training teaches you to assess and stabilize injuries and illnesses for hours or days before evacuation — the exact scenario in remote off-grid living. WFR graduates learn wound closure, spinal immobilization, improvised splinting, shock management, and patient packaging for transport. This knowledge literally saves lives.',takeaway:'Key insight: Medical training is the most underinvested category in off-grid preparedness. Equipment is useless without the knowledge to use it correctly under pressure.'}},
+      {icon:'💊',text:'Build a comprehensive medical supply cache',cost:'−$400',costType:'spend',
+       effect:{cash:-400,energy:0,water:0,food:0,health:20,income:0,costs:0},
+       lesson:{title:'Off-Grid Medical Supply Essentials',text:'A comprehensive off-grid medical kit goes far beyond bandages: suture kit, hemostatic gauze (QuikClot), SAM splints, tourniquet (CAT or SOFTT-W), oral rehydration salts, broad-spectrum antibiotics (with prescription), dental emergency kit, blood pressure cuff, and pulse oximeter. Total cost: $200–500. Shelf life: 2–5 years for most items.',takeaway:'Key insight: Build your kit for the most likely scenarios in your area — farm injuries, chainsaw accidents, and allergic reactions — not for Hollywood emergencies.'}},
+      {icon:'📡',text:'Install a satellite communicator and emergency beacon',cost:'−$350',costType:'spend',
+       effect:{cash:-350,energy:0,water:0,food:0,health:25,income:0,costs:25},
+       lesson:{title:'Emergency Communication Systems',text:'A satellite communicator (Garmin inReach, SPOT) gives you two-way messaging and SOS capability anywhere on Earth for $35–50/month. A PLB (Personal Locator Beacon) is a one-time $250–350 purchase with no monthly fee that sends a 406 MHz distress signal to search and rescue. For most off-gridders, a PLB is essential; a satellite communicator adds daily convenience and weather updates.',takeaway:'Key insight: Your phone is not your emergency communication system off-grid. Invest in devices that work where cell towers don\'t.'}}
+    ]
+  },
+  {
+    icon:'🌊',title:'Water System Expansion',type:'opportunity',mood:'opportunity',
+    text:'After a dry summer that stressed your well, you\'re evaluating water system improvements. Your well produces 3 gallons per minute — adequate but with no buffer. You have options.',
+    choices:[
+      {icon:'🪣',text:'Install a 2,500-gallon cistern for water storage — $1,800',cost:'−$1,800',costType:'spend',
+       effect:{cash:-1800,energy:0,water:35,food:10,health:15,income:0,costs:0},
+       lesson:{title:'Water Storage and Pressure Systems',text:'A cistern acts as a buffer between your well pump and your daily use — allowing you to pump water during off-peak energy hours (midday solar peak), store it, and use it on demand. 2,500 gallons = 8–10 days of water for two people at 30 gallons/person/day. Gravity-fed cisterns also eliminate the need for a pressure pump, saving electricity and mechanical failure points.',takeaway:'Key insight: Store water like you store energy — in bulk when conditions are favorable. A cistern is the water equivalent of a battery bank.'}},
+      {icon:'🌧️',text:'Upgrade rainwater collection to 5,000 gallons',cost:'−$1,200',costType:'spend',
+       effect:{cash:-1200,energy:0,water:25,food:15,health:10,income:0,costs:-20},
+       lesson:{title:'Rainwater Harvesting Calculations',text:'Average US home (2,000 sq ft roof) collects 1 inch of rain = 1,200 gallons. Annual rainfall in most of the eastern US: 35–50 inches = 42,000–60,000 gallons/year of potential collection. Actual capture: 70–80% after evaporation and first-flush diversion. A 5,000-gallon system stores 4–6 weeks of average household use from a single heavy rainstorm.',takeaway:'Key insight: Size rainwater systems for your driest 3 months, not your average rainfall. That is the buffer that prevents crisis during drought.'}},
+      {icon:'🔬',text:'Get a comprehensive water quality test and filtration upgrade',cost:'−$600',costType:'spend',
+       effect:{cash:-600,energy:0,water:20,food:5,health:25,income:0,costs:0},
+       lesson:{title:'Water Quality Testing and Treatment',text:'Well water should be tested annually for bacteria (E. coli, coliform), nitrates, pH, hardness, heavy metals, and any local agricultural or industrial contaminants. A full panel test costs $150–300 from a certified lab. Treating unknown water quality with inadequate filtration causes chronic health problems that develop over years — often unattributed to water.',takeaway:'Key insight: Know exactly what is in your water before you drink it. Generic filters don\'t treat every contaminant — your test results determine your specific filtration needs.'}}
+    ]
+  },
+  {
+    icon:'🐄',title:'Livestock Decision',type:'opportunity',mood:'opportunity',
+    text:'You have the space and infrastructure for livestock. A neighbor is selling two Nigerian Dwarf dairy goats for $350 each. They produce 1–2 quarts of milk per day each when in milk. Decision time.',
+    choices:[
+      {icon:'🐐',text:'Buy both goats — $700 total',cost:'−$700',costType:'spend',
+       effect:{cash:-700,energy:0,water:-10,food:25,health:20,income:100,costs:80},
+       lesson:{title:'Goat Economics and Dairy Production',text:'Two Nigerian Dwarf does in milk produce 1–3 quarts/day combined. At $6–10/quart for raw goat milk, that\'s $180–900/month in food value or direct sales where legal. Annual feed cost: $300–500 per goat. Veterinary: $100–200/year per goat. Net annual food value from two goats: $1,500–3,000 in dairy products (milk, cheese, yogurt, kefir, soap).',takeaway:'Key insight: Calculate livestock in food-value-produced vs total cost of ownership — not just sale price. Two well-managed dairy goats can fully fund their own keep and generate surplus value.'}},
+      {icon:'🔍',text:'Research goat care thoroughly before buying',cost:'No cost',costType:'',
+       effect:{cash:0,energy:0,water:0,food:5,health:10,income:0,costs:0},
+       lesson:{title:'Livestock Planning and the True Cost of Animals',text:'Goats require: secure fencing ($500–2,000 to upgrade), a dry shelter, daily milking commitment (twice daily, every day, no exceptions), hoof trimming every 6–8 weeks, mineral supplementation, deworming, annual CDT vaccinations, and breeding management. First-time goat owners who skip research typically lose animals and money within year one.',takeaway:'Key insight: Animals cannot be paused or postponed. Only add livestock when you have the time, knowledge, infrastructure, and financial reserves to care for them properly through emergencies.'}},
+      {icon:'🐔',text:'Start with chickens first — lower complexity',cost:'−$200',costType:'spend',
+       effect:{cash:-200,energy:0,water:-5,food:15,health:15,income:50,costs:40},
+       lesson:{title:'Scaling Livestock Gradually',text:'Chickens are the optimal entry-level livestock: low cost ($15–30/bird), high return ($250/hen/year in eggs), forgiving of beginner mistakes, and minimal infrastructure needs. Four laying hens produce 3–4 eggs/day, covering a family\'s egg needs entirely. Master chickens before adding the complexity and daily commitment of dairy animals.',takeaway:'Key insight: Livestock complexity scales dramatically. Master each level before advancing. Chickens → rabbits → goats → cattle is the proven progression for successful off-grid animal husbandry.'}}
+    ]
+  },
+  {
+    icon:'⚖️',title:'Legal and Insurance',type:'neutral',mood:'neutral',
+    text:'Your homestead has been operating without being fully reviewed for local zoning compliance. A neighbor mentions that unpermitted structures, water catchment, and off-grid systems can cause legal problems and void homeowner\'s insurance.',
+    choices:[
+      {icon:'📋',text:'Hire a land use attorney for a compliance review — $500',cost:'−$500',costType:'spend',
+       effect:{cash:-500,energy:0,water:0,food:0,health:20,income:0,costs:0},
+       lesson:{title:'Off-Grid Legal Compliance by State',text:'Off-grid regulations vary wildly by state and county. Some states (Colorado, Oregon) have historically restricted rainwater collection; others encourage it with rebates. Unpermitted structures can result in forced demolition orders. Many counties require permits for systems over 50 gallons of water storage. An hour with a land use attorney ($150–300/hour) prevents years of legal headaches.',takeaway:'Key insight: Research local zoning, water rights, and building codes BEFORE building permanent infrastructure. "I didn\'t know" is not a defense against a demolition order.'}},
+      {icon:'🏠',text:'Get proper off-grid homestead insurance — $1,200/yr',cost:'−$1,200',costType:'spend',
+       effect:{cash:-1200,energy:0,water:0,food:0,health:25,income:0,costs:100},
+       lesson:{title:'Off-Grid Property Insurance Realities',text:'Standard homeowner\'s insurance often excludes off-grid systems, alternative structures (yurts, earthships), and unconventional construction. Specialty off-grid insurers (American Modern, Lloyd\'s syndicates) cover solar systems, outbuildings, and alternative structures at realistic replacement value. Insurance gap: if your solar system ($15,000) burns in a fire and isn\'t covered, you restart from scratch.',takeaway:'Key insight: Review your insurance policy line by line for off-grid exclusions. The premium difference between standard and specialty coverage is often $200–400/year — far less than rebuilding.'}},
+      {icon:'👥',text:'Join a local homesteaders association for guidance',cost:'−$50/yr',costType:'spend',
+       effect:{cash:-50,energy:0,water:0,food:5,health:15,income:0,costs:0},
+       lesson:{title:'Homestead Community and Legal Shared Knowledge',text:'Local homesteading associations maintain institutional knowledge about which county rules are actively enforced, which inspectors are flexible, which variance processes succeed, and which battles aren\'t worth fighting. Members often include retired lawyers, former county employees, and long-term homesteaders with decades of navigating local bureaucracy.',takeaway:'Key insight: Community knowledge about local regulations is irreplaceable and saves you from reinventing the wheel — or hitting the same walls that others already mapped.'}}
+    ]
+  },
+  {
+    icon:'🌬️',title:'Wind Energy Assessment',type:'neutral',mood:'neutral',
+    text:'An energy assessor tells you that your property has average wind speeds of 11 mph — marginal for a small turbine (needs 12+ mph average to be cost-effective). You have options.',
+    choices:[
+      {icon:'🌀',text:'Install a 1kW small wind turbine anyway — $3,500',cost:'−$3,500',costType:'spend',
+       effect:{cash:-3500,energy:20,water:0,food:0,health:5,income:0,costs:0},
+       lesson:{title:'Wind Power Economics and Site Assessment',text:'Small wind turbines have a critical threshold: below 12 mph average wind speed, the economics rarely pencil out. At 11 mph, a 1kW turbine produces roughly 120 kWh/month — worth $15.60/month at $0.13/kWh. At $3,500 installed, payback period is 18 years. Compare to solar at $0.80–1.20/watt installed — far better ROI in most locations.',takeaway:'Key insight: Always get a professional wind assessment before purchasing a turbine. Wind speed data from 30 feet is useless — turbines need 60–120 feet of tower height to reach consistent wind. Site assessment prevents expensive mistakes.'}},
+      {icon:'☀️',text:'Put the money into more solar panels instead',cost:'−$1,800',costType:'spend',
+       effect:{cash:-1800,energy:25,water:0,food:0,health:5,income:120,costs:0},
+       lesson:{title:'Solar vs. Wind: Choosing the Right Renewable',text:'For most off-grid properties, solar outperforms small wind economically: lower installed cost ($0.80–2/watt vs $4–7/watt for wind), simpler maintenance (no moving parts), predictable output, and better financing options. Wind complements solar in cloudy regions with consistent strong winds (coastal, mountain passes, Great Plains). Know your resource before committing.',takeaway:'Key insight: Match your renewable investment to your site\'s actual resource. The best off-grid system is optimized for your specific location, not a generic template.'}},
+      {icon:'📊',text:'Invest in detailed energy monitoring first',cost:'−$300',costType:'spend',
+       effect:{cash:-300,energy:5,water:0,food:0,health:10,income:0,costs:0},
+       lesson:{title:'Energy Monitoring and System Optimization',text:'A whole-system energy monitor ($150–300) shows exactly where your energy goes, when you\'re producing vs. consuming, and where waste occurs. Most off-gridders who install monitoring discover 15–30% waste from phantom loads (devices on standby), inefficient appliances, or poor charge timing. Fixing waste is cheaper than adding generation.',takeaway:'Key insight: Measure before you spend. Energy monitoring typically identifies enough waste to delay a major upgrade by 1–2 years — saving thousands while improving your system\'s actual performance.'}}
+    ]
+  },
+  {
+    icon:'🎯',title:'Year-End Review',type:'neutral',mood:'neutral',
+    text:'You\'ve completed your first year off-grid. It\'s time for an honest assessment. Your homestead has taught you more than any book could. What is your primary focus for Year 2?',
+    choices:[
+      {icon:'💰',text:'Financial resilience — build 12 months of operating reserves',cost:'Focus priority',costType:'',
+       effect:{cash:500,energy:0,water:0,food:0,health:10,income:100,costs:0},
+       lesson:{title:'Off-Grid Financial Resilience Planning',text:'The standard financial advice of 3–6 months emergency fund is insufficient for off-grid homesteads. Equipment failures are expensive and often clustered: when a pump fails, the pressure tank often follows. Build a tiered reserve: $2,000 liquid emergency fund, $5,000 infrastructure replacement fund, 6 months operating expenses. Many experienced homesteaders keep $10,000–15,000 in dedicated homestead reserves.',takeaway:'Key insight: Financial reserves are as important as physical infrastructure. A homestead with a healthy reserve can weather failures without panic decisions that cost more long-term.'}},
+      {icon:'🌾',text:'Food security — reach 70% food self-sufficiency',cost:'Focus priority',costType:'',
+       effect:{cash:0,energy:0,water:0,food:30,health:20,income:0,costs:-50},
+       lesson:{title:'Food Self-Sufficiency Targets and Reality',text:'True food self-sufficiency requires: year-round growing (greenhouse or season extension), protein sources (livestock, legumes, eggs), food preservation systems (canning, fermenting, root cellar), and grain storage if you eat grains. Reaching 70% self-sufficiency typically requires 3–5 years of building food systems simultaneously. Most families find 50% a more realistic first milestone.',takeaway:'Key insight: Track your food production in dollars, not volume. When you know you produced $3,000 worth of food this year, you can set specific targets for Year 2 and measure real progress.'}},
+      {icon:'🌍',text:'Community — build reciprocal relationships with 5 neighbors',cost:'Focus priority',costType:'',
+       effect:{cash:0,energy:0,water:0,food:10,health:30,income:50,costs:-30},
+       lesson:{title:'Community as Core Infrastructure',text:'The most resilient off-grid communities are not individual homesteads — they are networks of homesteads with complementary skills, shared equipment, and reciprocal support. A neighbor with a tractor, a neighbor with medical training, a neighbor with mechanical skills — each relationship reduces your individual vulnerability and cost. Community is the infrastructure that makes all other infrastructure sustainable.',takeaway:'Key insight: No single homestead has every skill and resource needed for full resilience. Invest in relationships as deliberately as you invest in systems. A strong community multiplies every individual investment.'}}
+    ]
+  }
+];
+
+const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let month=0,year=1,decisions=0;
+let cash=8500,income=0,costs=320;
+let stats={energy:65,water:55,food:40,health:70};
+let log=[];
+let usedIdx=[];
+let netWorthHistory=0;
+
+function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,v));}
+function fmt(n){return(n>=0?'$':'-$')+Math.abs(n).toLocaleString();}
+
+function addLog(text,type='info'){
+  log.unshift({text,type});
+  if(log.length>8)log.pop();
+  renderLog();
+}
+
+function renderLog(){
+  const el=document.getElementById('log-entries');
+  el.innerHTML=log.map(l=>`<div class="log-entry ${l.type}">${l.text}</div>`).join('');
+}
+
+function updateStats(){
+  ['energy','water','food','health'].forEach(s=>{
+    stats[s]=clamp(stats[s]);
+    const pct=stats[s]+'%';
+    document.getElementById('sf-'+s).style.width=pct;
+    document.getElementById('sv-'+s).textContent=pct;
+    const card=document.getElementById('sc-'+s);
+    card.className='stat-card'+(stats[s]<25?' danger':stats[s]<45?' warning':'');
+  });
+}
+
+function updateFinances(){
+  document.getElementById('fin-cash').textContent=fmt(cash);
+  document.getElementById('fin-cash').style.color=cash<1000?'#f87171':cash<3000?'#fbbf24':'#4ade80';
+  document.getElementById('fin-income').textContent=fmt(income)+'/mo';
+  document.getElementById('fin-costs').textContent=fmt(costs)+'/mo';
+  const net=income-costs;
+  document.getElementById('hud-net').textContent=fmt(net)+'/mo';
+  document.getElementById('hud-net').style.color=net>=0?'#4ade80':'#f87171';
+}
+
+function getScenario(){
+  if(usedIdx.length>=scenarios.length)usedIdx=[];
+  const avail=scenarios.map((_,i)=>i).filter(i=>!usedIdx.includes(i));
+  const pick=avail[Math.floor(Math.random()*avail.length)];
+  usedIdx.push(pick);
+  return scenarios[pick];
+}
+
+function renderScenario(s){
+  const card=document.getElementById('scenario-card');
+  card.className='scenario-card '+(s.mood||'neutral');
+  document.getElementById('sc-icon').textContent=s.icon;
+  document.getElementById('sc-title').textContent=s.title;
+  const typeEl=document.getElementById('sc-type');
+  typeEl.textContent=s.type.toUpperCase();
+  typeEl.className='scenario-type '+(s.mood||'neutral');
+  document.getElementById('sc-text').textContent=s.text;
+  const choicesEl=document.getElementById('choices');
+  choicesEl.innerHTML='';
+  s.choices.forEach(c=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn';
+    btn.innerHTML=`<span class="choice-icon">${c.icon}</span><span class="choice-text">${c.text}</span><span class="choice-cost ${c.costType}">${c.cost}</span>`;
+    btn.onclick=()=>makeChoice(c);
+    choicesEl.appendChild(btn);
+  });
+  document.getElementById('lesson-panel').style.display='none';
+}
+
+function makeChoice(c){
+  decisions++;
+  // Apply financial effects
+  if(c.effect.cash)cash+=c.effect.cash;
+  if(c.effect.income)income+=c.effect.income;
+  if(c.effect.costs)costs+=c.effect.costs;
+  // Apply monthly net cash flow
+  cash+=(income-costs);
+  // Apply stat effects
+  Object.keys(c.effect).forEach(k=>{if(['energy','water','food','health'].includes(k))stats[k]+=c.effect[k];});
+  // Natural drift
+  stats.energy=clamp(stats.energy-3+Math.floor(Math.random()*5));
+  stats.water=clamp(stats.water-2+Math.floor(Math.random()*4));
+  stats.food=clamp(stats.food-3+Math.floor(Math.random()*4));
+  stats.health=clamp(stats.health-1+Math.floor(Math.random()*3));
+  updateStats();
+  updateFinances();
+  // Log
+  const netEffect=Object.values(c.effect).reduce((a,b)=>a+b,0);
+  addLog(`Month ${month+1}: ${c.text.substring(0,50)}...`,netEffect>0?'good':netEffect<0?'bad':'info');
+  // Show lesson
+  const lp=document.getElementById('lesson-panel');
+  lp.style.display='block';
+  document.getElementById('lesson-title').textContent=c.lesson.title;
+  document.getElementById('lesson-text').textContent=c.lesson.text;
+  document.getElementById('lesson-takeaway').textContent=c.lesson.takeaway;
+  lp.scrollIntoView({behavior:'smooth',block:'nearest'});
+  // Disable buttons
+  document.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
+  document.getElementById('hud-decisions').textContent=decisions;
+  // Advance
+  setTimeout(()=>{
+    month++;
+    if(month>=12||cash<=0){endGame();return;}
+    document.getElementById('hud-month').textContent=monthNames[month];
+    document.getElementById('prog-month').textContent=month+1;
+    document.getElementById('prog-season').textContent=months[month];
+    document.getElementById('prog-fill').style.width=(((month+1)/12)*100)+'%';
+    renderScenario(getScenario());
+    updateStats();
+    updateFinances();
+  },3000);
+}
+
+function endGame(){
+  document.getElementById('end-overlay').classList.add('show');
+  document.getElementById('es-cash').textContent=fmt(cash);
+  document.getElementById('es-cash').style.color=cash>=5000?'#4ade80':cash>=2000?'#fbbf24':'#f87171';
+  document.getElementById('es-decisions').textContent=decisions;
+  document.getElementById('es-energy').textContent=stats.energy+'%';
+  document.getElementById('es-food').textContent=stats.food+'%';
+  let emoji,title,msg;
+  if(cash<=0){emoji='😰';title='The Homestead Ran Dry';msg='Financial stress is the number one reason off-grid projects fail. The lessons are clear now — rebuild with a stronger financial foundation. Year 2 can be completely different with what you now know.';}
+  else if(cash<3000){emoji='😤';title='Survived Year One';msg='You made it through the hardest year — the first one. Year 2 will be easier because the major systems are built. Focus on income streams and food security next round.';}
+  else if(stats.food<30){emoji='🌱';title='The Systems Need Work';msg='Your finances held but food security was neglected. Year 2 is the year to build your food production systems seriously — every dollar of food you grow is a dollar your homestead keeps.';}
+  else if(cash>=6000&&stats.food>=50&&stats.energy>=60){emoji='🏆';title='Year One Complete — Thriving!';msg='You built a financially stable, food-secure, energy-independent homestead in your first year. That puts you in the top 10% of off-grid journeys. The compounding benefits of your Year 1 decisions will fuel Year 2 growth.';}
+  else{emoji='⭐';title:'Solid Year One';msg:'You made smart decisions under pressure and your homestead is stable heading into Year 2. Apply the lessons you learned and each year will be stronger than the last.';}
+  document.getElementById('end-emoji').textContent=emoji;
+  document.getElementById('end-title').textContent=title;
+  document.getElementById('end-score').textContent=`${month} months completed · ${decisions} decisions made`;
+  document.getElementById('end-msg').textContent=msg;
+}
+
+function restartGame(){
+  month=0;year=1;decisions=0;cash=8500;income=0;costs=320;
+  stats={energy:65,water:55,food:40,health:70};
+  log=[];usedIdx=[];
+  document.getElementById('end-overlay').classList.remove('show');
+  document.getElementById('hud-month').textContent='Jan';
+  document.getElementById('hud-year').textContent='Y2';
+  document.getElementById('prog-month').textContent='1';
+  document.getElementById('prog-season').textContent='January';
+  document.getElementById('prog-fill').style.width='8%';
+  document.getElementById('hud-decisions').textContent='0';
+  renderLog();
+  updateStats();
+  updateFinances();
+  renderScenario(getScenario());
+}
+
+// Init
+updateStats();
+updateFinances();
+renderScenario(getScenario());
+</script>
+</body>
+</html>

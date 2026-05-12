@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AO Off-Grid Adventure | Kids Edition</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a1628;color:#fff;font-family:'Segoe UI',sans-serif;min-height:100vh}
+nav{background:rgba(10,22,40,.95);border-bottom:2px solid #00c9ff;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Brush Script MT',cursive;font-size:1.8rem;color:#00c9ff;text-decoration:none}
+.nav-back{color:#8892a4;text-decoration:none;font-size:.9rem;border:1px solid #334155;padding:.4rem 1rem;border-radius:50px;transition:all .2s}
+.nav-back:hover{border-color:#00c9ff;color:#00c9ff}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem;background:radial-gradient(ellipse at center,rgba(0,201,255,.1) 0%,transparent 65%)}
+.badge{display:inline-block;background:linear-gradient(135deg,#22c55e,#00c9ff);color:#000;font-weight:900;font-size:.75rem;padding:.35rem 1rem;border-radius:50px;letter-spacing:.1em;margin-bottom:.75rem;text-transform:uppercase}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;color:#00c9ff;text-shadow:0 0 30px rgba(0,201,255,.4);margin-bottom:.5rem}
+.hero p{color:#94a3b8;font-size:.95rem;max-width:500px;margin:0 auto}
+.main{max-width:900px;margin:0 auto;padding:1.5rem 1.5rem 3rem}
+/* RESOURCE BARS */
+.resources{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.5rem}
+.res-card{background:#0f1f35;border:2px solid #1e3a5f;border-radius:16px;padding:1rem;text-align:center;transition:border-color .3s}
+.res-emoji{font-size:1.8rem;margin-bottom:.3rem}
+.res-name{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#64748b;margin-bottom:.5rem}
+.res-bar{background:rgba(255,255,255,.08);border-radius:8px;height:10px;overflow:hidden;margin-bottom:.3rem}
+.res-fill{height:100%;border-radius:8px;transition:width .5s}
+.res-val{font-size:.85rem;font-weight:700}
+/* DAY/SEASON */
+.hud{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.hud-box{background:#0f1f35;border:1px solid #1e3a5f;border-radius:12px;padding:.75rem 1.25rem;flex:1;text-align:center}
+.hud-label{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem}
+.hud-val{font-size:1.2rem;font-weight:900;color:#00c9ff}
+/* SCENE */
+.scene-card{background:#0f1f35;border:2px solid #1e3a5f;border-radius:20px;padding:1.75rem;margin-bottom:1.5rem;position:relative}
+.scene-card.good{border-color:#22c55e}
+.scene-card.warn{border-color:#f59e0b}
+.scene-card.bad{border-color:#ef4444}
+.scene-icon{font-size:3rem;margin-bottom:.75rem;display:block;text-align:center}
+.scene-title{font-size:1.1rem;font-weight:800;color:#e2e8f0;text-align:center;margin-bottom:.5rem}
+.scene-text{font-size:.9rem;color:#94a3b8;line-height:1.65;text-align:center;margin-bottom:1.25rem}
+.choices{display:grid;gap:.6rem}
+.choice-btn{background:rgba(255,255,255,.05);border:2px solid #1e3a5f;border-radius:14px;padding:.9rem 1.2rem;cursor:pointer;font-size:.88rem;color:#e2e8f0;transition:all .25s;text-align:left;display:flex;align-items:center;gap:.75rem}
+.choice-btn:hover{border-color:#00c9ff;background:rgba(0,201,255,.08);transform:translateY(-2px)}
+.choice-icon{font-size:1.4rem;flex-shrink:0}
+/* LESSON PANEL */
+.lesson-panel{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(0,201,255,.1));border:2px solid #22c55e;border-radius:16px;padding:1.25rem;margin-bottom:1.5rem;display:none}
+.lesson-header{font-size:.75rem;text-transform:uppercase;letter-spacing:.15em;color:#22c55e;font-weight:700;margin-bottom:.5rem}
+.lesson-title{font-size:1rem;font-weight:800;color:#e2e8f0;margin-bottom:.4rem}
+.lesson-text{font-size:.88rem;color:#94a3b8;line-height:1.65}
+.lesson-fact{display:inline-block;background:rgba(34,197,94,.15);color:#86efac;border-radius:8px;padding:.3rem .75rem;font-size:.8rem;font-weight:600;margin-top:.6rem}
+/* RESULT */
+.result-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center}
+.result-overlay.show{display:flex}
+.result-box{background:#0f1f35;border:3px solid #00c9ff;border-radius:24px;padding:2.5rem;max-width:420px;text-align:center}
+.result-emoji{font-size:4rem;margin-bottom:1rem}
+.result-title{font-size:1.6rem;font-weight:900;color:#00c9ff;margin-bottom:.5rem}
+.result-msg{color:#94a3b8;font-size:.9rem;line-height:1.6;margin-bottom:1.5rem}
+.result-score{font-size:2rem;font-weight:900;color:#22c55e;margin-bottom.5rem}
+.btn-restart{background:linear-gradient(135deg,#00c9ff,#22c55e);color:#000;font-weight:900;border:none;padding:.9rem 2.5rem;border-radius:50px;cursor:pointer;font-size:1rem;transition:all .3s}
+.btn-restart:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(0,201,255,.4)}
+/* PROGRESS */
+.progress-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.progress-bar{flex:1;background:rgba(255,255,255,.08);border-radius:8px;height:8px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00c9ff,#22c55e);border-radius:8px;transition:width .4s}
+.progress-label{font-size:.8rem;color:#64748b;white-space:nowrap}
+footer{text-align:center;padding:2rem;color:#64748b;font-size:.8rem;border-top:1px solid rgba(255,255,255,.05)}
+footer span{font-family:'Brush Script MT',cursive;color:#00c9ff;font-size:1rem}
+@media(max-width:600px){.resources{grid-template-columns:repeat(2,1fr)}.hud{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Anom</a>
+  <a class="nav-back" href="games.html">← Back to Games</a>
+</nav>
+
+<div class="hero">
+  <div class="badge">🌿 Kids Edition — Ages 7+</div>
+  <h1>AO OFF-GRID ADVENTURE</h1>
+  <p>Build your own off-grid homestead! Make smart choices, learn real skills, and keep your resources topped up through every season.</p>
+</div>
+
+<div class="main">
+
+  <div class="progress-row">
+    <span class="progress-label">Day <span id="prog-day">1</span>/30</span>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:3%"></div></div>
+    <span class="progress-label" id="prog-season">🌱 Spring</span>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-box"><div class="hud-label">Day</div><div class="hud-val" id="hud-day">1</div></div>
+    <div class="hud-box"><div class="hud-label">Season</div><div class="hud-val" id="hud-season">🌱 Spring</div></div>
+    <div class="hud-box"><div class="hud-label">Score</div><div class="hud-val" id="hud-score" style="color:#22c55e">0</div></div>
+    <div class="hud-box"><div class="hud-label">Streak</div><div class="hud-val" id="hud-streak" style="color:#f59e0b">0🔥</div></div>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="resources">
+    <div class="res-card" id="rc-sun">
+      <div class="res-emoji">☀️</div>
+      <div class="res-name">Sun Power</div>
+      <div class="res-bar"><div class="res-fill" id="rf-sun" style="width:70%;background:linear-gradient(90deg,#fbbf24,#f59e0b)"></div></div>
+      <div class="res-val" id="rv-sun" style="color:#fbbf24">70%</div>
+    </div>
+    <div class="res-card" id="rc-water">
+      <div class="res-emoji">💧</div>
+      <div class="res-name">Water</div>
+      <div class="res-bar"><div class="res-fill" id="rf-water" style="width:60%;background:linear-gradient(90deg,#38bdf8,#0ea5e9)"></div></div>
+      <div class="res-val" id="rv-water" style="color:#38bdf8">60%</div>
+    </div>
+    <div class="res-card" id="rc-food">
+      <div class="res-emoji">🥦</div>
+      <div class="res-name">Food</div>
+      <div class="res-bar"><div class="res-fill" id="rf-food" style="width:50%;background:linear-gradient(90deg,#4ade80,#22c55e)"></div></div>
+      <div class="res-val" id="rv-food" style="color:#4ade80">50%</div>
+    </div>
+    <div class="res-card" id="rc-happy">
+      <div class="res-emoji">😊</div>
+      <div class="res-name">Happiness</div>
+      <div class="res-bar"><div class="res-fill" id="rf-happy" style="width:80%;background:linear-gradient(90deg,#f472b6,#ec4899)"></div></div>
+      <div class="res-val" id="rv-happy" style="color:#f472b6">80%</div>
+    </div>
+  </div>
+
+  <!-- LESSON PANEL -->
+  <div class="lesson-panel" id="lesson-panel">
+    <div class="lesson-header">✨ Lesson Unlocked!</div>
+    <div class="lesson-title" id="lesson-title"></div>
+    <div class="lesson-text" id="lesson-text"></div>
+    <span class="lesson-fact" id="lesson-fact"></span>
+  </div>
+
+  <!-- SCENE -->
+  <div class="scene-card" id="scene-card">
+    <span class="scene-icon" id="scene-icon">🌅</span>
+    <div class="scene-title" id="scene-title">A New Day on the Homestead</div>
+    <div class="scene-text" id="scene-text">The sun is rising over your off-grid home. What will you do first today?</div>
+    <div class="choices" id="choices"></div>
+  </div>
+
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="result-overlay">
+  <div class="result-box">
+    <div class="result-emoji" id="result-emoji">🏡</div>
+    <div class="result-title" id="result-title">Adventure Complete!</div>
+    <div class="result-score" id="result-score">Score: 0</div>
+    <div class="result-msg" id="result-msg">You completed your off-grid season!</div>
+    <button class="btn-restart" onclick="restartGame()">Play Again 🌱</button>
+  </div>
+</div>
+
+<footer>
+  <p>AO Off-Grid Adventure &mdash; Kids Edition by <span>Anom</span> &copy; 2026 AO Universe</p>
+</footer>
+
+<script>
+const scenarios=[
+  {
+    icon:'☀️',title:'Sunny Morning!',text:'It\'s a beautiful sunny day! Your solar panels are soaking up rays. What do you do with all that extra power?',
+    mood:'good',
+    choices:[
+      {icon:'🔋',text:'Charge the battery bank for cloudy days',effect:{sun:5,water:0,food:0,happy:5},lesson:{title:'Solar Battery Storage',text:'Solar panels make electricity when the sun shines — but what about at night or on cloudy days? Smart off-gridders store extra power in battery banks, just like a piggy bank for electricity!',fact:'🌟 Fun Fact: A battery bank can hold enough energy to power a home for 1–3 days!'}},
+      {icon:'🧺',text:'Do laundry and chores using solar power',effect:{sun:-10,water:-5,food:0,happy:10},lesson:{title:'Using Energy Wisely',text:'Running big appliances like washing machines during peak sunlight hours means you use FREE solar power instead of draining your batteries. This is called "load shifting" — doing big tasks when energy is plentiful!',fact:'🌟 Fun Fact: Washing clothes in cold water uses 90% less energy than hot water!'}},
+      {icon:'💤',text:'Do nothing — let the batteries fill up',effect:{sun:10,water:0,food:0,happy:-5},lesson:{title:'Passive Energy Collection',text:'Sometimes doing nothing is smart! Letting your solar panels quietly fill your batteries without using extra power means you have more stored up for later. Off-grid living is about balance.',fact:'🌟 Fun Fact: Solar panels can last 25–30 years and keep making free electricity all that time!'}}
+    ]
+  },
+  {
+    icon:'🌧️',title:'Rain is Coming!',text:'Dark clouds are rolling in. The weather forecast says rain for the next two days. What\'s your plan?',
+    mood:'warn',
+    choices:[
+      {icon:'🪣',text:'Set up rain barrels to collect water',effect:{sun:-5,water:20,food:5,happy:10},lesson:{title:'Rainwater Harvesting',text:'Rain is FREE water straight from the sky! Off-gridders collect it in barrels and tanks from their roof. This water can be used for gardens, flushing toilets, and even drinking when cleaned properly.',fact:'🌟 Fun Fact: 1 inch of rain on a 1,000 sq ft roof collects about 600 gallons of water!'}},
+      {icon:'🌱',text:'Leave the garden — rain will water the plants',effect:{sun:0,water:10,food:10,happy:5},lesson:{title:'Working With Nature',text:'Nature does a lot of the work for you! Rainwater is actually better for plants than tap water because it\'s soft and full of nitrogen from the air. Smart gardeners plan their gardens to catch natural rainfall.',fact:'🌟 Fun Fact: Rainwater has no chlorine or fluoride, which makes plants super happy!'}},
+      {icon:'⚡',text:'Worry about solar power dropping',effect:{sun:-20,water:5,food:0,happy:-10},lesson:{title:'Cloudy Days and Solar Power',text:'Cloudy days reduce solar power, but panels still work! They just make less electricity. This is why having a full battery bank before bad weather is so important — it\'s like wearing a raincoat before it rains.',fact:'🌟 Fun Fact: Solar panels still produce about 10-25% of their normal power on cloudy days!'}}
+    ]
+  },
+  {
+    icon:'🥕',title:'Garden Time!',text:'Your vegetable garden needs some love. The plants are looking a little droopy. What do you do?',
+    mood:'good',
+    choices:[
+      {icon:'🌿',text:'Compost kitchen scraps to feed the soil',effect:{sun:0,water:5,food:15,happy:10},lesson:{title:'Composting is Magic',text:'Composting turns banana peels, eggshells, and vegetable scraps into super rich food for your garden soil. Instead of throwing things away, you recycle them into something plants LOVE. Zero waste, maximum growth!',fact:'🌟 Fun Fact: Composting reduces household waste by up to 30% and makes soil 50% richer!'}},
+      {icon:'💧',text:'Water deeply but not too often',effect:{sun:0,water:-15,food:10,happy:5},lesson:{title:'Deep Watering Roots',text:'Plants need deep roots to find water during dry spells. Watering deeply but less often trains roots to grow DOWN into the soil instead of staying near the surface. Deep-rooted plants are tough, drought-resistant, and strong!',fact:'🌟 Fun Fact: Watering in the morning means less water evaporates — your plants get MORE with less water!'}},
+      {icon:'🪱',text:'Add earthworms to the garden bed',effect:{sun:0,water:5,food:20,happy:15},lesson:{title:'Earthworms are Farmers',text:'Earthworms are the off-grid gardener\'s best friends! They tunnel through soil making it loose and airy so roots can breathe, and they leave behind worm castings which are the most powerful natural fertilizer on Earth.',fact:'🌟 Fun Fact: One earthworm can process its own weight in soil every single day!'}}
+    ]
+  },
+  {
+    icon:'🌬️',title:'Windy Day!',text:'The wind is howling outside! The kids are excited. How do you use this windy energy?',
+    mood:'good',
+    choices:[
+      {icon:'🌀',text:'Check if your small wind turbine is working',effect:{sun:15,water:0,food:0,happy:10},lesson:{title:'Wind Power',text:'Wind turbines spin in the breeze and make electricity! A small home wind turbine can power lights, phones, and small appliances. On windy days, wind power and solar power team up to fill your batteries FAST.',fact:'🌟 Fun Fact: Wind is the fastest-growing energy source in the world right now!'}},
+      {icon:'👕',text:'Hang laundry outside to dry in the wind',effect:{sun:5,water:0,food:0,happy:10},lesson:{title:'Air Drying Saves Energy',text:'Clothes dryers use MORE electricity than almost any other appliance in a home. Line drying clothes using free wind energy saves huge amounts of electricity — and clothes last longer too! It\'s a win-win.',fact:'🌟 Fun Fact: Air drying clothes instead of using a dryer saves about $150 per year per family!'}},
+      {icon:'🏠',text:'Check the home for drafts and seal them',effect:{sun:0,water:0,food:0,happy:15},lesson:{title:'Weatherproofing Your Home',text:'Drafts — sneaky cold air leaking in — make your home harder to heat and cool. Sealing gaps around windows and doors with weatherstripping keeps your home comfortable using LESS energy. Tight homes are efficient homes!',fact:'🌟 Fun Fact: Sealing drafts can reduce a home\'s heating and cooling costs by up to 20%!'}}
+    ]
+  },
+  {
+    icon:'🌙',title:'Night Time Decision',text:'It\'s evening and the solar panels have stopped making power. Your battery is at 40%. What do you do?',
+    mood:'warn',
+    choices:[
+      {icon:'🕯️',text:'Use candles and low-power LED lights',effect:{sun:10,water:0,food:0,happy:5},lesson:{title:'Low-Power Lighting',text:'LED lights use up to 90% LESS electricity than old-fashioned bulbs. At night off-grid, smart lighting choices make your batteries last until morning. Beeswax candles are a zero-electricity backup that smell amazing too!',fact:'🌟 Fun Fact: One LED bulb can last 25 years — that\'s longer than most pets live!'}},
+      {icon:'📱',text:'Charge all devices before bed',effect:{sun:-15,water:0,food:0,happy:5},lesson:{title:'Energy Priorities',text:'Off-grid life teaches you what really matters. Charging everything at once at night drains batteries fast. Smart off-gridders prioritize: lights and refrigerator first, entertainment devices second. Knowing your priorities is a life skill!',fact:'🌟 Fun Fact: A phone uses only about $2 worth of electricity per year to charge — tiny but it adds up!'}},
+      {icon:'⭐',text:'Go stargazing — no electricity needed!',effect:{sun:5,water:0,food:0,happy:20},lesson:{title:'The Beauty of Off-Grid Life',text:'Off-grid homes away from city lights get to see the FULL night sky with thousands of stars. This is one of the greatest gifts of living close to nature — a sky full of stars is your free entertainment system.',fact:'🌟 Fun Fact: You can see up to 2,500 stars with your bare eyes on a dark, clear night!'}}
+    ]
+  },
+  {
+    icon:'❄️',title:'Winter is Coming!',text:'The days are getting shorter and colder. How do you prepare your homestead for winter?',
+    mood:'warn',
+    choices:[
+      {icon:'🪵',text:'Chop and stack firewood for heating',effect:{sun:0,water:0,food:5,happy:15},lesson:{title:'Wood Heat',text:'Firewood is one of the oldest off-grid heating methods! Trees absorb CO2 while growing, and burning dry wood releases that same CO2 back. When forests are managed well, wood heat can be carbon-neutral and completely renewable.',fact:'🌟 Fun Fact: One cord of wood (a 4x4x8 ft stack) can heat a well-insulated home for an entire winter!'}},
+      {icon:'🥕',text:'Preserve and store summer vegetables',effect:{sun:0,water:5,food:25,happy:10},lesson:{title:'Food Preservation',text:'Before refrigerators, people used pickling, fermenting, drying, and root cellars to store food through winter. These ancient skills are still the best! Fermented foods like sauerkraut are even HEALTHIER than fresh vegetables.',fact:'🌟 Fun Fact: Properly fermented vegetables can last 6 months or more without any refrigeration!'}},
+      {icon:'🧥',text:'Insulate the walls and windows',effect:{sun:5,water:0,food:0,happy:10},lesson:{title:'Insulation is Everything',text:'A well-insulated home stays warm in winter and cool in summer with very little energy. Think of insulation like a cozy sweater for your house! Good insulation can cut heating and cooling bills by more than half.',fact:'🌟 Fun Fact: Proper insulation can cut heating costs by 50-70% — the single best investment for off-grid living!'}}
+    ]
+  },
+  {
+    icon:'🐔',title:'Chickens!',text:'Your neighbor offers you three backyard chickens for free. What do you do?',
+    mood:'good',
+    choices:[
+      {icon:'🥚',text:'Take them! Fresh eggs every day!',effect:{sun:0,water:-5,food:20,happy:20},lesson:{title:'Keeping Backyard Chickens',text:'Chickens are the off-gridder\'s perfect animal! They eat kitchen scraps and garden pests, produce eggs almost daily, make amazing fertilizer, and are low maintenance. Three hens can provide 15-20 eggs per week!',fact:'🌟 Fun Fact: A healthy hen lays about 250 eggs per year — that\'s nearly 5 eggs every week!'}},
+      {icon:'🤔',text:'Only take them if you have a coop ready',effect:{sun:0,water:-5,food:10,happy:10},lesson:{title:'Planning Before Acting',text:'Chickens need a safe, predator-proof coop to sleep in at night. Jumping in before you\'re ready can lead to lost chickens and wasted effort. In off-grid life — like in life! — planning first saves you from big problems later.',fact:'🌟 Fun Fact: Chickens need about 4 square feet of coop space each and protection from foxes, raccoons, and hawks!'}},
+      {icon:'🙅',text:'Say no — chickens are too much work right now',effect:{sun:5,water:5,food:0,happy:5},lesson:{title:'Knowing Your Limits',text:'Off-grid living teaches you to be honest about your capacity. Taking on too much at once leads to burnout and neglected animals. Saying no when you\'re not ready is mature and responsible — not a failure!',fact:'🌟 Fun Fact: Responsible off-gridders say: only add animals when you can properly care for them!'}}
+    ]
+  },
+  {
+    icon:'💧',title:'Water Check!',text:'You check your rainwater tanks and they\'re getting low. What\'s your plan?',
+    mood:'warn',
+    choices:[
+      {icon:'🚿',text:'Take shorter showers and fix any drips',effect:{sun:0,water:15,food:0,happy:5},lesson:{title:'Fixing Drips Saves Gallons',text:'A single dripping tap wastes up to 20 gallons of water PER DAY. Fixing leaks is one of the most powerful water-saving actions you can take. A 5-minute shower uses about 25 gallons — a 2-minute shower uses only 10!',fact:'🌟 Fun Fact: Turning off the tap while brushing teeth saves 8 gallons of water every day!'}},
+      {icon:'🌵',text:'Plant drought-resistant native plants in the garden',effect:{sun:0,water:10,food:10,happy:10},lesson:{title:'Native Plants and Drought Resistance',text:'Native plants evolved in your local climate and need far less water than imported plants. Planting natives is smart off-grid design — you work with your environment instead of fighting it. Less watering, more thriving!',fact:'🌟 Fun Fact: Native plants can use 50-75% less water than traditional garden plants!'}},
+      {icon:'🔄',text:'Set up a greywater system for garden watering',effect:{sun:0,water:20,food:10,happy:15},lesson:{title:'Greywater Recycling',text:'Greywater is the water from sinks, showers, and washing machines. Instead of letting it drain away, you can filter it and use it to water trees and garden beds. One person\'s shower water can water an entire fruit tree!',fact:'🌟 Fun Fact: Greywater recycling can cut household water use by up to 50%!'}}
+    ]
+  },
+  {
+    icon:'🌞',title:'Hot Summer Day!',text:'It\'s scorching hot outside! How do you keep cool without air conditioning?',
+    mood:'good',
+    choices:[
+      {icon:'🪟',text:'Open windows at night, close them during the day',effect:{sun:5,water:5,food:0,happy:15},lesson:{title:'Passive Cooling',text:'Before air conditioning existed, people used passive cooling — smart use of shade, ventilation, and thick walls. Opening windows at night lets cool air in; closing them during the day traps that coolness. Nature\'s free air conditioning!',fact:'🌟 Fun Fact: A well-designed passive house stays comfortable in all seasons with almost no mechanical heating or cooling!'}},
+      {icon:'🌳',text:'Plant shade trees on the south side of the house',effect:{sun:0,water:-5,food:5,happy:20},lesson:{title:'Trees as Natural Cooling',text:'Trees are nature\'s air conditioners! A single large tree provides cooling equal to 10 air conditioning units running for 20 hours a day. Shade trees on the sunny side of your house can cut cooling costs by 25-50%.',fact:'🌟 Fun Fact: Trees also release water vapor through their leaves, cooling the air around them by up to 9°F!'}},
+      {icon:'💧',text:'Use a solar-powered fan and drink lots of water',effect:{sun:-10,water:-10,food:0,happy:10},lesson:{title:'Hydration and Heat Safety',text:'In hot weather your body sweats to cool down, which means you need extra water. Off-grid homes use solar-powered fans to move air without draining batteries. Staying hydrated is health lesson #1 in summer!',fact:'🌟 Fun Fact: Your body needs about 8-10 cups of water per day — more when it\'s hot or you\'re active!'}}
+    ]
+  },
+  {
+    icon:'🌱',title:'Planting Day!',text:'It\'s the perfect time to plant new things. What do you grow?',
+    mood:'good',
+    choices:[
+      {icon:'🫘',text:'Plant beans — they feed the soil AND you!',effect:{sun:0,water:-5,food:20,happy:10},lesson:{title:'Nitrogen-Fixing Plants',text:'Beans, peas, and clover are MAGICAL plants — they pull nitrogen from the air and put it into the soil, making it richer for other plants. Growing beans in your garden means less fertilizer needed next season. Nature feeds itself!',fact:'🌟 Fun Fact: Beans can increase soil nitrogen by up to 200 lbs per acre — completely for free!'}},
+      {icon:'🌿',text:'Plant herbs — medicine and flavor!',effect:{sun:0,water:-5,food:10,happy:15},lesson:{title:'Herb Gardens',text:'Herbs like mint, lavender, chamomile, and echinacea are food AND medicine growing right in your garden. Off-grid homesteaders have used herbs for hundreds of years for teas, healing, cooking, and even keeping pests away from other plants.',fact:'🌟 Fun Fact: Lavender repels mosquitoes, moths, and fleas — a natural pest repellent you can grow yourself!'}},
+      {icon:'🌻',text:'Plant sunflowers for seeds and bee habitat',effect:{sun:5,water:0,food:5,happy:20},lesson:{title:'Sunflowers and Pollinators',text:'Sunflowers feed bees with nectar and pollen, and produce nutritious seeds for you and birds to eat. Bees pollinate your vegetable garden, giving you MORE food. One sunflower supports the whole ecosystem!',fact:'🌟 Fun Fact: Bees visit up to 5,000 flowers per day to make just one teaspoon of honey!'}}
+    ]
+  }
+];
+
+const seasons=['🌱 Spring','☀️ Summer','🍂 Autumn','❄️ Winter'];
+let day=1,score=0,streak=0;
+let resources={sun:70,water:60,food:50,happy:80};
+const TOTAL_DAYS=10;
+let usedScenarios=[];
+let currentScenario=null;
+
+function getScenario(){
+  if(usedScenarios.length>=scenarios.length)usedScenarios=[];
+  let available=scenarios.filter((_,i)=>!usedScenarios.includes(i));
+  let idx=Math.floor(Math.random()*available.length);
+  let realIdx=scenarios.indexOf(available[idx]);
+  usedScenarios.push(realIdx);
+  return scenarios[realIdx];
+}
+
+function getSeason(){
+  if(day<=3)return seasons[0];
+  if(day<=6)return seasons[1];
+  if(day<=8)return seasons[2];
+  return seasons[3];
+}
+
+function clamp(v){return Math.max(0,Math.min(100,v));}
+
+function updateResources(){
+  ['sun','water','food','happy'].forEach(r=>{
+    resources[r]=clamp(resources[r]);
+    const pct=resources[r]+'%';
+    document.getElementById('rf-'+r).style.width=pct;
+    document.getElementById('rv-'+r).textContent=pct;
+    const card=document.getElementById('rc-'+r);
+    card.style.borderColor=resources[r]<25?'#ef4444':resources[r]<50?'#f59e0b':'#1e3a5f';
+  });
+}
+
+function renderScene(){
+  currentScenario=getScenario();
+  const s=currentScenario;
+  const card=document.getElementById('scene-card');
+  card.className='scene-card '+(s.mood||'');
+  document.getElementById('scene-icon').textContent=s.icon;
+  document.getElementById('scene-title').textContent=s.title;
+  document.getElementById('scene-text').textContent=s.text;
+  const choicesEl=document.getElementById('choices');
+  choicesEl.innerHTML='';
+  s.choices.forEach((c,i)=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn';
+    btn.innerHTML='<span class="choice-icon">'+c.icon+'</span><span>'+c.text+'</span>';
+    btn.onclick=()=>makeChoice(c);
+    choicesEl.appendChild(btn);
+  });
+  document.getElementById('lesson-panel').style.display='none';
+}
+
+function makeChoice(choice){
+  // Apply effects
+  Object.keys(choice.effect).forEach(r=>{resources[r]+=choice.effect[r];});
+  updateResources();
+  // Show lesson
+  const lp=document.getElementById('lesson-panel');
+  lp.style.display='block';
+  document.getElementById('lesson-title').textContent=choice.lesson.title;
+  document.getElementById('lesson-text').textContent=choice.lesson.text;
+  document.getElementById('lesson-fact').textContent=choice.lesson.fact;
+  lp.scrollIntoView({behavior:'smooth',block:'nearest'});
+  // Score
+  const goodChoice=Object.values(choice.effect).reduce((a,b)=>a+b,0)>0;
+  if(goodChoice){streak++;score+=10+streak*2;}else{streak=0;score=Math.max(0,score-5);}
+  document.getElementById('hud-score').textContent=score;
+  document.getElementById('hud-streak').textContent=streak+'🔥';
+  // Advance day after delay
+  setTimeout(()=>{
+    day++;
+    if(day>TOTAL_DAYS||resources.food<=0||resources.water<=0||resources.happy<=0){endGame();return;}
+    document.getElementById('hud-day').textContent=day;
+    document.getElementById('prog-day').textContent=day;
+    const season=getSeason();
+    document.getElementById('hud-season').textContent=season;
+    document.getElementById('prog-season').textContent=season;
+    document.getElementById('prog-fill').style.width=((day/TOTAL_DAYS)*100)+'%';
+    // Natural resource drift
+    resources.sun=clamp(resources.sun-5+Math.floor(Math.random()*10));
+    resources.water=clamp(resources.water-3+Math.floor(Math.random()*6));
+    resources.food=clamp(resources.food-4);
+    resources.happy=clamp(resources.happy-2);
+    updateResources();
+    renderScene();
+  },2800);
+  // Disable buttons
+  document.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
+}
+
+function endGame(){
+  const overlay=document.getElementById('result-overlay');
+  overlay.classList.add('show');
+  let emoji,title,msg;
+  if(resources.food<=0||resources.water<=0){emoji='😰';title='The homestead struggled!';msg='Resources ran out, but that\'s how we learn! Every off-grid expert made mistakes at first. Try again with what you know now!';}
+  else if(resources.happy<=0){emoji='😔';title='The homestead felt lonely!';msg='Off-grid life needs balance between work and joy. Next time, make sure to take breaks and do things that make you happy!';}
+  else if(score>=100){emoji='🏆';title='Homestead Hero!';msg='You are an off-grid superstar! Your homestead thrived and you learned so many amazing skills. The planet thanks you! 🌍';}
+  else if(score>=60){emoji='🌟';title='Great Homesteader!';msg='Your homestead was healthy and happy! You made smart choices and learned real off-grid skills. Keep going — you\'re getting it!';}
+  else{emoji='🌱';title='Growing Every Day!';msg='Every day on the homestead is a learning day! You completed your first season. Try again and use your lessons to score even higher!';}
+  document.getElementById('result-emoji').textContent=emoji;
+  document.getElementById('result-title').textContent=title;
+  document.getElementById('result-score').textContent='Score: '+score;
+  document.getElementById('result-msg').textContent=msg;
+}
+
+function restartGame(){
+  day=1;score=0;streak=0;usedScenarios=[];
+  resources={sun:70,water:60,food:50,happy:80};
+  document.getElementById('result-overlay').classList.remove('show');
+  document.getElementById('hud-day').textContent='1';
+  document.getElementById('hud-season').textContent=seasons[0];
+  document.getElementById('hud-score').textContent='0';
+  document.getElementById('hud-streak').textContent='0🔥';
+  document.getElementById('prog-day').textContent='1';
+  document.getElementById('prog-season').textContent=seasons[0];
+  document.getElementById('prog-fill').style.width='3%';
+  updateResources();
+  renderScene();
+}
+
+updateResources();
+renderScene();
+</script>
+</body>
+</html>
