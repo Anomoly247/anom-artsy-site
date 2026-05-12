@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AO Games Hub | AO Universe</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0b0e14;color:#fff;font-family:'Segoe UI',sans-serif;min-height:100vh}
+nav{background:rgba(11,14,20,.95);border-bottom:1px solid rgba(255,0,204,.2);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Brush Script MT',cursive;font-size:1.8rem;color:#ff00cc;text-decoration:none}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:#8892a4;text-decoration:none;font-size:.9rem;transition:color .2s}
+.nav-links a:hover{color:#00eaff}
+.hero{text-align:center;padding:4rem 2rem 2rem;background:radial-gradient(ellipse at center,rgba(255,0,204,.08) 0%,transparent 70%)}
+.hero-tag{font-family:monospace;color:#00eaff;font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.75rem}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;background:linear-gradient(135deg,#ff00cc,#c084fc,#00eaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.75rem;letter-spacing:2px}
+.hero p{color:#8892a4;font-size:1rem;max-width:550px;margin:0 auto}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;max-width:1100px;margin:3rem auto;padding:0 2rem}
+.game-card{background:#0f1420;border:1px solid rgba(255,0,204,.15);border-radius:20px;overflow:hidden;transition:all .3s}
+.game-card:hover{border-color:rgba(0,234,255,.4);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,234,255,.08)}
+.game-header{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:1rem}
+.game-icon{font-size:2rem}
+.game-title{font-size:1.1rem;font-weight:700;color:#00eaff}
+.game-desc{font-size:.8rem;color:#8892a4;margin-top:.25rem}
+.game-body{padding:1.5rem}
+.btn{display:inline-block;padding:.7rem 1.6rem;border-radius:50px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;transition:all .3s;text-transform:uppercase;letter-spacing:.05em}
+.btn-cyan{background:transparent;border:1px solid #00eaff;color:#00eaff}
+.btn-cyan:hover{background:#00eaff;color:#0b0e14}
+.btn-sm{padding:.5rem 1.2rem;font-size:.8rem}
+.score-box{background:rgba(255,255,255,.04);border-radius:12px;padding:1rem;text-align:center;margin-bottom:1rem}
+.score-num{font-size:2rem;font-weight:900;color:#ff00cc}
+.score-label{font-size:.75rem;color:#8892a4;text-transform:uppercase;letter-spacing:.1em}
+/* TRIVIA */
+#trivia-q{font-size:1rem;color:#e8eaf0;line-height:1.6;margin-bottom:1rem;min-height:48px}
+.trivia-opts{display:grid;gap:.5rem}
+.trivia-opt{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.75rem 1rem;cursor:pointer;font-size:.88rem;color:#ccc;transition:all .2s;text-align:left;width:100%}
+.trivia-opt:hover{border-color:#00eaff;color:#fff;background:rgba(0,234,255,.08)}
+.trivia-opt.correct{border-color:#22c55e;background:rgba(34,197,94,.15);color:#86efac}
+.trivia-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12);color:#fca5a5}
+#trivia-msg{font-size:.85rem;margin-top:.75rem;color:#c084fc;font-style:italic;min-height:20px}
+/* MEMORY */
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem}
+.mem-card{aspect-ratio:1;background:#1a1f2e;border:2px solid #2a2f45;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all .25s}
+.mem-card.flipped{background:#141a28;border-color:#ff00cc}
+.mem-card.matched{border-color:#22c55e;background:rgba(34,197,94,.1);cursor:default}
+/* MOOD */
+.mood-opts{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.mood-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:50px;padding:.5rem 1rem;cursor:pointer;font-size:.85rem;color:#ccc;transition:all .2s}
+.mood-btn:hover,.mood-btn.sel{border-color:#ff00cc;background:rgba(255,0,204,.12);color:#fff}
+#mood-result{background:linear-gradient(135deg,rgba(255,0,204,.1),rgba(0,234,255,.1));border-radius:12px;padding:1rem;font-size:.9rem;line-height:1.6;color:#e8eaf0;margin-top:.75rem;display:none}
+/* CLICKER */
+.clicker-zone{text-align:center;padding:1rem 0}
+#snack-emoji{font-size:3.5rem;cursor:pointer;display:inline-block;transition:transform .1s;user-select:none}
+#snack-emoji:active{transform:scale(.85)}
+.clicker-bar{background:rgba(255,255,255,.06);border-radius:8px;height:12px;margin:.75rem 0;overflow:hidden}
+.clicker-fill{height:100%;background:linear-gradient(90deg,#ff00cc,#00eaff);border-radius:8px;transition:width .3s}
+#clicker-msg{font-size:.85rem;color:#c084fc;font-style:italic;min-height:20px}
+footer{text-align:center;padding:2rem;color:#8892a4;font-size:.8rem;border-top:1px solid rgba(255,255,255,.05);margin-top:3rem}
+footer span{font-family:'Brush Script MT',cursive;color:#ff00cc;font-size:1rem}
+@media(max-width:600px){.nav-links{display:none}.memory-grid{gap:.3rem}.mem-card{font-size:1.2rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Anom</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="ao-cosmology.html">Cosmology</a></li>
+    <li><a href="kids-corner.html">Kids Corner</a></li>
+    <li><a href="store.html">Store</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">// AO Games Hub //</div>
+  <h1>PLAY THE AO UNIVERSE</h1>
+  <p>Original mini-games built from AO lore. No downloads. Just vibes, snacks, and cosmic fun.</p>
+</div>
+
+<div class="games-grid">
+
+  <!-- GAME 1: AO TRIVIA -->
+  <div class="game-card">
+    <div class="game-header">
+      <div class="game-icon">🧠</div>
+      <div>
+        <div class="game-title">AO UNIVERSE TRIVIA</div>
+        <div class="game-desc">Test your lore knowledge — 10 questions from the Codex</div>
+      </div>
+    </div>
+    <div class="game-body">
+      <div class="score-box">
+        <div class="score-num" id="t-score">0</div>
+        <div class="score-label">Score &nbsp;|&nbsp; <span id="t-qnum">Q 1/10</span></div>
+      </div>
+      <div id="trivia-q">Loading question...</div>
+      <div class="trivia-opts" id="trivia-opts"></div>
+      <div id="trivia-msg"></div>
+    </div>
+  </div>
+
+  <!-- GAME 2: NEON MEMORY -->
+  <div class="game-card">
+    <div class="game-header">
+      <div class="game-icon">🧩</div>
+      <div>
+        <div class="game-title">NEON MEMORY</div>
+        <div class="game-desc">Match AO Universe icons in as few moves as possible</div>
+      </div>
+    </div>
+    <div class="game-body">
+      <div class="score-box">
+        <div class="score-num" id="m-moves">0</div>
+        <div class="score-label">Moves &nbsp;|&nbsp; <span id="m-pairs">0/8 matched</span></div>
+      </div>
+      <div class="memory-grid" id="memory-grid"></div>
+      <button class="btn btn-cyan btn-sm" onclick="initMemory()">New Game</button>
+    </div>
+  </div>
+
+  <!-- GAME 3: MOOD MATCHER -->
+  <div class="game-card">
+    <div class="game-header">
+      <div class="game-icon">✨</div>
+      <div>
+        <div class="game-title">AO MOOD MATCHER</div>
+        <div class="game-desc">Pick your vibe — get your AO character match</div>
+      </div>
+    </div>
+    <div class="game-body">
+      <p style="color:#8892a4;font-size:.85rem;margin-bottom:.75rem;">What energy are you bringing today?</p>
+      <div class="mood-opts">
+        <button class="mood-btn" onclick="pickMood(this,'Creative')">Creative 🎨</button>
+        <button class="mood-btn" onclick="pickMood(this,'Tired')">Tired 😴</button>
+        <button class="mood-btn" onclick="pickMood(this,'Hungry')">Hungry 🍕</button>
+        <button class="mood-btn" onclick="pickMood(this,'Hyped')">Hyped ⚡</button>
+        <button class="mood-btn" onclick="pickMood(this,'Reflective')">Reflective 🌙</button>
+        <button class="mood-btn" onclick="pickMood(this,'Chaotic')">Chaotic 🌀</button>
+      </div>
+      <div id="mood-result"></div>
+    </div>
+  </div>
+
+  <!-- GAME 4: SNACK VAULT CLICKER -->
+  <div class="game-card">
+    <div class="game-header">
+      <div class="game-icon">🍕</div>
+      <div>
+        <div class="game-title">SNACK VAULT RUSH</div>
+        <div class="game-desc">Click to fill the Snack Vault before it empties</div>
+      </div>
+    </div>
+    <div class="game-body">
+      <div class="score-box">
+        <div class="score-num" id="c-count">0</div>
+        <div class="score-label">Snacks collected &nbsp;|&nbsp; <span id="c-level">Level 1</span></div>
+      </div>
+      <div class="clicker-zone">
+        <div id="snack-emoji" onclick="clickSnack()">&#127829;</div>
+      </div>
+      <div class="clicker-bar"><div class="clicker-fill" id="clicker-fill" style="width:0%"></div></div>
+      <div id="clicker-msg">Tap the snack to begin your mission!</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>AO Games Hub &mdash; Original games by <span>Anom</span> &copy; 2026 AO Universe</p>
+</footer>
+
+<script>
+// ===== TRIVIA =====
+const trivia=[
+  {q:"What is the fabric of the AO Universe called?",a:"The Weave",opts:["The Weave","The Grid","The Bloom","The Spark"]},
+  {q:"What realm solidifies first in Era 2?",a:"Neon City",opts:["Dream Drift","Neon City","Snack Vault","Wild Grid"]},
+  {q:"Which AO Law says every major event traces back to a snack decision?",a:"Law of Snack Causality",opts:["Law of Story Loops","Law of Creative Gravity","Law of Snack Causality","Law of the Weave"]},
+  {q:"Who is the very first character born in the AO Universe?",a:"AO Main Character",opts:["Grandma","Jay","AO Main Character","Lila"]},
+  {q:"What was the AO Universe before the First Spark?",a:"The Void",opts:["Darkness","The Void","The Grid","Nothingness"]},
+  {q:"Which realm requires emotional sincerity to enter?",a:"Snack Vault",opts:["Dream Drift","Wild Grid","Snack Vault","Story Plane"]},
+  {q:"What does the Law of Story Loops say about endings?",a:"Every ending is a beginning in disguise",opts:["Stories end permanently","Every ending is a beginning in disguise","Loops only happen in Wild Grid","Endings reset the universe"]},
+  {q:"In Kids Corner Ep 2 what does Grandma reorganize twice?",a:"The kitchen",opts:["The living room","The garage","The kitchen","The kids room"]},
+  {q:"What is the soft space between sleep and inspiration called?",a:"Dream Drift",opts:["Wild Grid","Story Plane","Dream Drift","The Void"]},
+  {q:"What do characters find when they reach the edge of The Void?",a:"New abilities",opts:["The end of all stories","New abilities","The Snack Vault","AO Main Characters home"]}
+];
+let tIdx=0,tScore=0,tLocked=false;
+function loadTrivia(){
+  if(tIdx>=trivia.length){
+    document.getElementById('trivia-q').textContent='Game over! Final score: '+tScore+'/10';
+    document.getElementById('trivia-opts').innerHTML='<button class="btn btn-cyan btn-sm" onclick="resetTrivia()" style="margin-top:1rem">Play Again</button>';
+    document.getElementById('trivia-msg').textContent='';return;
+  }
+  const q=trivia[tIdx];
+  document.getElementById('trivia-q').textContent=q.q;
+  document.getElementById('t-qnum').textContent='Q '+(tIdx+1)+'/10';
+  document.getElementById('trivia-msg').textContent='';
+  const opts=document.getElementById('trivia-opts');
+  opts.innerHTML='';
+  [...q.opts].sort(()=>Math.random()-.5).forEach(o=>{
+    const b=document.createElement('button');
+    b.className='trivia-opt';b.textContent=o;
+    b.onclick=()=>answerTrivia(b,o,q.a);
+    opts.appendChild(b);
+  });
+  tLocked=false;
+}
+function answerTrivia(btn,chosen,correct){
+  if(tLocked)return;tLocked=true;
+  document.querySelectorAll('.trivia-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});
+  const msg=document.getElementById('trivia-msg');
+  if(chosen===correct){tScore++;document.getElementById('t-score').textContent=tScore;btn.classList.add('correct');msg.textContent='✨ Correct! The Weave grows stronger.';}
+  else{btn.classList.add('wrong');msg.textContent='🌑 Not quite. Answer: '+correct;}
+  setTimeout(()=>{tIdx++;loadTrivia();},1800);
+}
+function resetTrivia(){tIdx=0;tScore=0;document.getElementById('t-score').textContent='0';loadTrivia();}
+loadTrivia();
+
+// ===== MEMORY =====
+const mEmojis=['🎨','⚡','🍕','🌌','📖','💭','🏙️','🌀'];
+let mFlipped=[],mMatched=0,mMoves=0,mLock=false;
+function initMemory(){
+  mFlipped=[];mMatched=0;mMoves=0;mLock=false;
+  document.getElementById('m-moves').textContent='0';
+  document.getElementById('m-pairs').textContent='0/8 matched';
+  const grid=document.getElementById('memory-grid');grid.innerHTML='';
+  [...mEmojis,...mEmojis].sort(()=>Math.random()-.5).forEach((e,i)=>{
+    const c=document.createElement('div');
+    c.className='mem-card';c.dataset.val=e;c.dataset.idx=i;
+    c.onclick=()=>flipCard(c);grid.appendChild(c);
+  });
+}
+function flipCard(c){
+  if(mLock||c.classList.contains('flipped')||c.classList.contains('matched'))return;
+  c.textContent=c.dataset.val;c.classList.add('flipped');mFlipped.push(c);
+  if(mFlipped.length===2){
+    mMoves++;document.getElementById('m-moves').textContent=mMoves;mLock=true;
+    if(mFlipped[0].dataset.val===mFlipped[1].dataset.val){
+      mFlipped.forEach(x=>x.classList.replace('flipped','matched'));
+      mMatched++;document.getElementById('m-pairs').textContent=mMatched+'/8 matched';
+      mFlipped=[];mLock=false;
+      if(mMatched===8)setTimeout(()=>alert('🎉 You matched them all in '+mMoves+' moves!'),200);
+    } else {
+      setTimeout(()=>{mFlipped.forEach(x=>{x.classList.remove('flipped');x.textContent='';});mFlipped=[];mLock=false;},900);
+    }
+  }
+}
+initMemory();
+
+// ===== MOOD MATCHER =====
+const moodMap={
+  Creative:{char:'AO Main Character',msg:'Full creation mode. The Wild Grid is calling. Start making that thing you have been sitting on.',color:'#c084fc'},
+  Tired:{char:'Grandma (Ep 2)',msg:'Rest is productive. Grandma knows this. The universe does not require you at 100% every second.',color:'#818cf8'},
+  Hungry:{char:'Snack Vault Guardian',msg:'The Snack Vault opens for you. You are tapping into the Law of Snack Causality. Honor it.',color:'#f59e0b'},
+  Hyped:{char:'AO Persona — CEO Mode',msg:'This is your activation moment. Big energy without direction dissipates. Pick one task and dominate it.',color:'#00eaff'},
+  Reflective:{char:'Dream Drift Wanderer',msg:'You are in the Dream Drift. This is where clarity comes from. Something important is assembling itself.',color:'#38bdf8'},
+  Chaotic:{char:'Wild Grid Entity',msg:'Pure Wild Grid energy. Stop trying to organize it. Let it out in one explosive creative act.',color:'#ff5ebc'}
+};
+function pickMood(btn,mood){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  const m=moodMap[mood];
+  const r=document.getElementById('mood-result');
+  r.style.display='block';r.style.borderLeft='3px solid '+m.color;
+  r.innerHTML='<strong style="color:'+m.color+'">Your AO Match: '+m.char+'</strong><br><span style="color:#ccc;font-size:.88rem;">'+m.msg+'</span>';
+}
+
+// ===== SNACK CLICKER =====
+const snacks=['🍕','🍪','🍿','🍩','🍜','🧇','🍫','🥤'];
+const msgs=['Tap faster! The Vault needs you!','You are doing great, keeper!','Level up incoming...','The Weave grows stronger!','Snack Causality is real!','AO approves this mission.','Keep going! Almost there!','Legendary snack energy!'];
+let cCount=0,cLevel=1,cGoal=20;
+function clickSnack(){
+  cCount++;
+  document.getElementById('c-count').textContent=cCount;
+  document.getElementById('clicker-fill').style.width=Math.min((cCount/cGoal)*100,100)+'%';
+  document.getElementById('clicker-msg').textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  document.getElementById('snack-emoji').textContent=snacks[Math.floor(Math.random()*snacks.length)];
+  if(cCount>=cGoal){
+    cLevel++;cGoal=cLevel*20;
+    document.getElementById('c-level').textContent='Level '+cLevel;
+    document.getElementById('clicker-msg').textContent='🎉 LEVEL '+cLevel+'! Snack Vault expanding!';
+    document.getElementById('clicker-fill').style.width='0%';
+  }
+}
+</script>
+</body>
+</html>
