@@ -3,69 +3,106 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anom Artsy — Home</title>
+    <title>Anom Artsy • Identity Amplified</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="dark-bg">
 
     <!-- NAVIGATION -->
-    <nav class="nav">
-        <div class="nav-left">
-            <img src="assets/site/ao-logo-neon-square.png" alt="AO Logo" class="nav-logo">
-            <span class="nav-title">Anom Artsy</span>
-        </div>
-
-        <div class="nav-right">
-            <a href="index.html" class="nav-link active">Home</a>
-            <a href="gallery.html" class="nav-link">Gallery</a>
-            <a href="custom.html" class="nav-link">Custom Work</a>
-            <a href="merch.html" class="nav-link">Merch</a>
-            <a href="stories.html" class="nav-link">Stories</a>
-            <a href="kids-corner.html" class="nav-link">Kids Corner</a>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Dark. Neon. Expressive.</h1>
-            <p class="hero-subtitle">A curated world of art, identity, and imagination.</p>
-
-            <div class="hero-buttons">
-                <a href="gallery.html" class="btn-primary">Explore Gallery</a>
-                <a href="custom.html" class="btn-secondary">Request Custom Work</a>
-            </div>
+    <header class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ANOM ARTsy</a>
+            <nav class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="custom.html">Custom</a>
+                <a href="merch.html">Merch</a>
+                <a href="stories.html">Stories</a>
+                <a href="kids-corner.html">Kids</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
         </div>
     </header>
 
-    <!-- FEATURED SECTIONS -->
-    <section class="featured">
-        <h2 class="section-title">Featured Collections</h2>
+    <!-- HERO -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="neon-title">Identity, Amplified</h1>
+            <p class="hero-subtext">
+                Digital art that feels like you — expressive, intentional, and built around your vibe, your story, and your energy.
+            </p>
 
-        <div class="featured-grid">
+            <div style="margin-top: 35px;">
+                <a href="gallery.html" class="cta-button" style="margin-right: 15px;">Explore My Work</a>
+                <a href="custom.html" class="cta-button">Custom Art</a>
+            </div>
+        </div>
+    </section>
 
-            <a href="gallery.html" class="featured-card">
-                <img src="ao-card-profile-visuals.png" alt="Profile Visuals">
-                <h3>Profile Visuals</h3>
-            </a>
+    <!-- WHAT I MAKE -->
+    <section class="content-section">
+        <div class="content-container">
+            <h2 class="section-title neon-text">What I Make</h2>
+            <p class="section-body">
+                Neon identity art for creators, brands, and anyone who wants visuals that hit harder than templates.
+            </p>
 
-            <a href="gallery.html" class="featured-card">
-                <img src="ao-card-enchanted-forest.png" alt="Enchanted Forest">
-                <h3>Enchanted Forest</h3>
-            </a>
+            <div class="gallery-grid">
 
-            <a href="gallery.html" class="featured-card">
-                <img src="ao-card-still-dangerous-full.png" alt="Still Dangerous">
-                <h3>Still Dangerous</h3>
-            </a>
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece1.jpg" class="gallery-img" alt="Portrait" />
+                    <h3 class="gallery-title">Custom Portraits</h3>
+                    <p class="gallery-desc">Identity-driven neon portraits built around personality.</p>
+                </div>
 
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece3.jpg" class="gallery-img" alt="Background" />
+                    <h3 class="gallery-title">4K Backgrounds</h3>
+                    <p class="gallery-desc">Neon environments crafted to shape the mood of your space.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece2.jpg" class="gallery-img" alt="Mood Art" />
+                    <h3 class="gallery-title">Mood Collection</h3>
+                    <p class="gallery-desc">Expressive neon art for humor, emotion, and storytelling.</p>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="assets/gallery/piece4.jpg" class="gallery-img" alt="Merch" />
+                    <h3 class="gallery-title">Merch Designs</h3>
+                    <p class="gallery-desc">High-impact neon graphics for apparel and products.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT AO -->
+    <section class="content-section">
+        <div class="content-container">
+            <h2 class="section-title neon-text">About AO</h2>
+            <p class="section-body">
+                Anom Originals is built on one belief: your visuals should feel alive — not generic, flat, or forgettable.
+                Every piece is crafted with intention, emotion, and neon energy.
+            </p>
+            <a href="about.html" class="cta-button">Learn More</a>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready for Your Own Piece?</h2>
+            <p class="cta-text">Tell me your vibe — I’ll turn it into neon.</p>
+            <a href="custom.html" class="cta-button">Start a Custom Request</a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <p>© 2026 Anom Artsy — All Rights Reserved</p>
+        <p>© 2026 Anom Originals • Identity in Every Pixel</p>
     </footer>
 
 </body>
