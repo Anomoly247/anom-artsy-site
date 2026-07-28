@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watch — AO · Anom Originals</title>
+<meta name="description" content="Pixel & Dot, Snack Wars, and more from AO. Animated stories and characters for every age.">
+<meta property="og:title" content="Watch — AO">
+<meta property="og:description" content="Pixel & Dot, Snack Wars and more. Animated stories from Anom Originals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0a0a0f; --panel:#12121a; --edge:#1f1f2b;
+  --cyan:#00eaff; --magenta:#ff00c8; --gold:#e8b64c;
+  --ash:#7a7a8c; --bone:#e8e8f0;
+  --mono:'Space Mono',ui-monospace,monospace;
+  --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--bone);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+a{color:inherit;text-decoration:none}
+
+.hdr{position:sticky;top:0;z-index:40;background:rgba(10,10,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+.hdr-in{max-width:1180px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.mark{font-family:var(--mono);font-weight:700;font-size:1.4rem;letter-spacing:.16em;line-height:1}
+.mark .a{color:var(--cyan)}.mark .o{color:var(--magenta)}
+.tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;color:var(--ash);text-transform:uppercase}
+.nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav a{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ash);padding:7px 11px;border:1px solid transparent;transition:all .15s}
+.nav a:hover,.nav a:focus-visible{color:var(--bone);border-color:var(--edge)}
+.nav a.here{color:var(--bone);border-color:var(--edge)}
+.nav a.shop{color:var(--gold);border-color:rgba(232,182,76,.4)}
+.nav a.shop:hover{background:var(--gold);color:var(--void);font-weight:700}
+
+.hero{max-width:1180px;margin:0 auto;padding:56px 20px 30px;position:relative;z-index:2}
+.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--magenta);text-transform:uppercase;margin-bottom:16px}
+h1{font-family:var(--mono);font-weight:700;line-height:1.04;font-size:clamp(2rem,6.5vw,3.6rem);text-transform:uppercase}
+.lede{max-width:56ch;margin-top:18px;color:#b9b9c8;font-size:1.02rem}
+.sub-btn{margin-top:24px;display:inline-block;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;background:#ff0000;color:#fff;padding:12px 20px;border-radius:2px;transition:filter .15s}
+.sub-btn:hover,.sub-btn:focus-visible{filter:brightness(1.1)}
+
+.series{max-width:1180px;margin:0 auto;padding:40px 20px 0;position:relative;z-index:2}
+.series-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.series-head h2{font-family:var(--mono);font-weight:700;font-size:1.5rem;letter-spacing:.02em}
+.dot{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border:1px solid currentColor}
+.d-cyan{color:var(--cyan)}.d-mag{color:var(--magenta)}.d-gold{color:var(--gold)}
+.series-note{color:var(--ash);font-size:.9rem;margin-bottom:22px;max-width:60ch}
+
+.vgrid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.video{background:var(--panel);border:1px solid var(--edge);overflow:hidden;position:relative;transition:border-color .18s}
+.video:hover{border-color:var(--ash)}
+.video .frame{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video .cap{padding:13px 15px 15px}
+.video .cap h3{font-family:var(--mono);font-weight:700;font-size:.92rem;letter-spacing:.01em}
+.video .cap p{font-size:.8rem;color:var(--ash);margin-top:5px;line-height:1.45}
+
+.playlist-wrap{max-width:900px}
+.playlist-wrap .frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--edge)}
+.playlist-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pl-note{color:var(--ash);font-size:.8rem;margin-top:10px}
+.empty{border:1px dashed var(--edge);padding:30px 22px;text-align:center;color:var(--ash);font-size:.9rem;border-radius:2px}
+.empty b{color:var(--bone)}
+
+footer{max-width:1180px;margin:60px auto 0;padding:24px 20px 40px;border-top:1px solid var(--edge);position:relative;z-index:2}
+footer .sig{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:#44445a;text-transform:uppercase}
+
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+@media (max-width:620px){.nav{width:100%;margin-left:0}.hero{padding:40px 20px 24px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div>
+      <div class="mark"><span class="a">A</span><span class="o">O</span></div>
+      <div class="tag">Identity in Every Pixel</div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="kids-corner.html">Kids</a>
+      <a href="watch.html" class="here">Watch</a>
+      <a href="games.html">Games</a>
+      <a href="https://anomarsty.lol" class="shop">Shop</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">AO Animation</div>
+  <h1>Watch</h1>
+  <p class="lede">Animated stories and characters from AO — for the little ones and the young at heart. New episodes land on the channel first.</p>
+  <a class="sub-btn" href="https://www.youtube.com/@anomoriginals" target="_blank" rel="noopener">Subscribe on YouTube</a>
+</section>
+
+<!-- ============ PIXEL & DOT ============ -->
+<section class="series">
+  <div class="series-head">
+    <h2>Pixel &amp; Dot</h2>
+    <span class="dot d-cyan">Kids</span>
+  </div>
+  <p class="series-note">Gentle animated stories for younger viewers — friendship, feelings, and small adventures.</p>
+  <div class="playlist-wrap">
+    <div class="frame">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=PL_laUxnc83t54H1fTx1ukpDDanju-ptR5" title="Pixel &amp; Dot playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <p class="pl-note">Use the ☰ menu inside the player to jump between episodes. New episodes appear here automatically.</p>
+  </div>
+</section>
+
+<!-- ============ DIGITAL STORYBOOKS ============ -->
+<section class="series">
+  <div class="series-head">
+    <h2>Digital Storybooks</h2>
+    <span class="dot d-cyan">Kids</span>
+  </div>
+  <p class="series-note">Read-along animated storybooks from Anom's Corner.</p>
+  <div class="empty">
+    <b>Playlist coming here.</b><br>
+    Paste the "Anom's Corner: Digital Storybooks" playlist link and this fills in.
+  </div>
+</section>
+
+<!-- ============ TATER & CLIFFORD ============ -->
+<section class="series">
+  <div class="series-head">
+    <h2>Tater &amp; Clifford</h2>
+    <span class="dot d-mag">Series</span>
+  </div>
+  <p class="series-note">A miniature pinscher who takes security seriously and an orange tabby who takes nothing seriously. Snack Wars and other adventures.</p>
+  <div class="vgrid">
+
+    <div class="empty">
+      <b>Playlist coming here.</b><br>
+      Paste the "Team Meeting: Tater &amp; Clifford Edition" playlist link and this fills in.
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ ANOM'S CORNER: LATEST ============ -->
+<section class="series">
+  <div class="series-head">
+    <h2>Anom's Corner: Latest</h2>
+    <span class="dot d-gold">Fresh</span>
+  </div>
+  <p class="series-note">Recent clips, previews and behind-the-scenes from the channel.</p>
+  <div class="playlist-wrap">
+    <div class="frame">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=PL_laUxnc83t6YJv3EtxSXxeGkF2HA8q5d" title="Anom's Corner Latest" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <p class="pl-note">Use the ☰ menu inside the player to browse all clips.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="sig">AO · Anom Originals · Woodbridge, VA · Identity in Every Pixel</div>
+</footer>
+
+</body>
+</html>
