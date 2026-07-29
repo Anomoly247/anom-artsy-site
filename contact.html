@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — AO · Anom Originals</title>
+<meta name="description" content="Get in touch with AO. Custom art, questions, or collabs — reach out anytime.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--void:#0a0a0f;--panel:#12121a;--edge:#1f1f2b;--cyan:#00eaff;--magenta:#ff00c8;--gold:#e8b64c;--ash:#7a7a8c;--bone:#e8e8f0;--mono:'Space Mono',monospace;--body:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--bone);font-family:var(--body);line-height:1.55}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(180deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+a{color:inherit;text-decoration:none}
+.hdr{position:sticky;top:0;z-index:40;background:rgba(10,10,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+.hdr-in{max-width:1180px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.mark{font-family:var(--mono);font-weight:700;font-size:1.4rem;letter-spacing:.16em}
+.mark .a{color:var(--cyan)}.mark .o{color:var(--magenta)}
+.tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;color:var(--ash);text-transform:uppercase}
+.nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav a{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ash);padding:7px 11px;border:1px solid transparent}
+.nav a:hover{color:var(--bone);border-color:var(--edge)}
+.nav a.here{color:var(--bone);border-color:var(--edge)}
+.nav a.shop{color:var(--gold);border-color:rgba(232,182,76,.4)}
+.hero{max-width:1180px;margin:0 auto;padding:56px 20px 10px;position:relative;z-index:2;text-align:center}
+.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--magenta);text-transform:uppercase;margin-bottom:16px}
+h1{font-family:var(--mono);font-weight:700;font-size:clamp(2rem,6.5vw,3.4rem);text-transform:uppercase}
+.lede{max-width:52ch;margin:18px auto 0;color:#b9b9c8}
+.section{max-width:1180px;margin:0 auto;padding:40px 20px 0;position:relative;z-index:2}
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--panel);border:1px solid var(--edge);padding:22px 20px 24px}
+.card h3{font-family:var(--mono);font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--magenta)}
+.card p{font-size:.84rem;color:var(--ash);line-height:1.5;margin-bottom:10px}
+.card a.link{color:var(--cyan);font-size:1.05rem;display:block;margin-top:6px}
+.card a.social{color:var(--cyan);display:block;margin-top:4px}
+.btn{display:inline-block;font-family:var(--mono);font-weight:700;font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;background:var(--gold);color:var(--void);padding:11px 18px;border-radius:2px;margin-top:6px}
+.msg{max-width:700px;margin:40px auto 0;padding:0 20px;position:relative;z-index:2}
+.msg h2{font-family:var(--mono);font-weight:700;font-size:1.5rem;margin-bottom:8px}
+.msg p{color:var(--ash);font-size:.9rem;margin-bottom:18px}
+.msgbox{background:var(--panel);border:1px solid var(--edge);padding:24px;display:flex;flex-direction:column;gap:14px}
+.msgbox input,.msgbox textarea{padding:12px;border-radius:6px;border:1px solid var(--edge);background:var(--void);color:var(--bone);font-family:var(--body);font-size:.9rem}
+.sendbtn{text-align:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--void);padding:14px;border-radius:2px}
+footer{max-width:1180px;margin:60px auto 0;padding:24px 20px 40px;border-top:1px solid var(--edge);position:relative;z-index:2;text-align:center}
+footer .sig{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:#44445a;text-transform:uppercase}
+@media (max-width:620px){.nav{width:100%;margin-left:0}.hero{padding:40px 20px 10px}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-in">
+    <div>
+      <div class="mark"><span class="a">A</span><span class="o">O</span></div>
+      <div class="tag">Identity in Every Pixel</div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="kids-corner.html">Kids</a>
+      <a href="watch.html">Watch</a>
+      <a href="stories.html">Stories</a>
+      <a href="contact.html" class="here">Contact</a>
+      <a href="https://anomarsty.lol" class="shop">Shop</a>
+    </nav>
+  </div>
+</header>
+<section class="hero">
+  <div class="eyebrow">Get in Touch</div>
+  <h1>Let's Build Something Expressive</h1>
+  <p class="lede">Whether you want custom art, neon visuals, merch graphics, or identity-driven design — reach out anytime. I respond to every message personally.</p>
+</section>
+<section class="section">
+  <div class="cards">
+    <div class="card">
+      <h3>Email</h3>
+      <p>Best way to reach me for custom work, questions, or collabs.</p>
+      <a class="link" href="mailto:eliza@anomartsy.xyz">eliza@anomartsy.xyz</a>
+    </div>
+    <div class="card">
+      <h3>Custom Requests</h3>
+      <p>Portraits, backgrounds, merch graphics, identity packs, and more.</p>
+      <a class="btn" href="custom.html">Start Custom Work</a>
+    </div>
+    <div class="card">
+      <h3>Follow AO</h3>
+      <p>Updates, new art drops, and behind-the-scenes.</p>
+      <a class="social" href="https://www.facebook.com/anomoriginals">Facebook</a>
+      <a class="social" href="https://www.youtube.com/@anomoriginals">YouTube</a>
+      <a class="social" href="https://giphy.com/channel/anomoriginals247">Giphy Stickers</a>
+      <a class="social" href="https://anomarsty.lol">The Shop</a>
+    </div>
+  </div>
+</section>
+<section class="msg">
+  <h2>Send a Message</h2>
+  <p>This form opens your email — just fill in your details and hit send.</p>
+  <div class="msgbox">
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Your Email">
+    <textarea placeholder="Your Message" rows="5"></textarea>
+    <a class="sendbtn" href="mailto:eliza@anomartsy.xyz">Send via Email</a>
+  </div>
+</section>
+<footer><div class="sig">AO · Anom Originals · Woodbridge, VA · Identity in Every Pixel</div></footer>
+</body>
+</html>
