@@ -12,6 +12,7 @@ games, and the lore.
 - `gallery.html` — art gallery
 - `custom.html` — commission info
 - `kids-corner.html` — Anom's Corner stories (Pixel & Dot, Tater & Clifford)
+- `watch.html` — animated videos (Pixel & Dot, Tater & Clifford)
 - `games.html`, `off-grid-kids.html`, `off-grid-adult.html` — the Off Grid game
 - `stories.html` — story index
 - `ao-cosmology.html` — the AO Universe lore
