@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merch — AO · Anom Originals</title>
+<meta name="description" content="AO merch — hoodies, tees, and stickers with neon identity art. Plus digital sticker packs and posters in the shop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--void:#0a0a0f;--panel:#12121a;--edge:#1f1f2b;--cyan:#00eaff;--magenta:#ff00c8;--gold:#e8b64c;--ash:#7a7a8c;--bone:#e8e8f0;--mono:'Space Mono',monospace;--body:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--bone);font-family:var(--body);line-height:1.55}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(180deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+a{color:inherit;text-decoration:none}
+.hdr{position:sticky;top:0;z-index:40;background:rgba(10,10,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+.hdr-in{max-width:1180px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.mark{font-family:var(--mono);font-weight:700;font-size:1.4rem;letter-spacing:.16em}
+.mark .a{color:var(--cyan)}.mark .o{color:var(--magenta)}
+.tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;color:var(--ash);text-transform:uppercase}
+.nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav a{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ash);padding:7px 11px;border:1px solid transparent}
+.nav a:hover{color:var(--bone);border-color:var(--edge)}
+.nav a.here{color:var(--bone);border-color:var(--edge)}
+.nav a.shop{color:var(--gold);border-color:rgba(232,182,76,.4)}
+.hero{max-width:1180px;margin:0 auto;padding:56px 20px 10px;position:relative;z-index:2;text-align:center}
+.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--magenta);text-transform:uppercase;margin-bottom:16px}
+h1{font-family:var(--mono);font-weight:700;font-size:clamp(2rem,6.5vw,3.4rem);text-transform:uppercase}
+.lede{max-width:56ch;margin:18px auto 0;color:#b9b9c8}
+.section{max-width:1180px;margin:0 auto;padding:40px 20px 0;position:relative;z-index:2}
+.slabel{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;color:var(--ash);text-transform:uppercase;margin-bottom:16px;text-align:center}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--edge);position:relative;display:block;transition:border-color .18s,transform .18s;overflow:hidden}
+.card:hover{border-color:var(--ash);transform:translateY(-2px)}
+.card .top{height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:1.7rem}
+.t-cyan{background:linear-gradient(135deg,rgba(0,234,255,.16),rgba(0,234,255,.02));color:var(--cyan)}
+.t-mag{background:linear-gradient(135deg,rgba(255,0,200,.16),rgba(255,0,200,.02));color:var(--magenta)}
+.t-gold{background:linear-gradient(135deg,rgba(232,182,76,.16),rgba(232,182,76,.02));color:var(--gold)}
+.card .body{padding:18px}
+.card h3{font-family:var(--mono);font-weight:700;font-size:1rem;margin-bottom:8px}
+.card p{font-size:.83rem;color:var(--ash);line-height:1.5}
+.card .go{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;margin-top:14px;display:block}
+.go.buy{color:var(--gold)}
+.go.ext{color:var(--cyan)}
+.steps{max-width:760px;margin:44px auto 0;padding:0 20px;position:relative;z-index:2}
+.steps h2{font-family:var(--mono);font-weight:700;font-size:1.4rem;text-align:center;margin-bottom:20px}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--edge)}
+.step .n{font-family:var(--mono);font-weight:700;color:var(--gold);font-size:1.1rem;flex:none;width:28px}
+.step p{color:#c3c8d8;font-size:.9rem}
+.step b{color:var(--bone)}
+.cta-wrap{text-align:center;padding:40px 20px 0}
+.cta{display:inline-block;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--void);padding:15px 26px;border-radius:2px}
+.cta:hover{filter:brightness(1.12)}
+footer{max-width:1180px;margin:56px auto 0;padding:24px 20px 40px;border-top:1px solid var(--edge);text-align:center}
+footer .sig{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:#44445a;text-transform:uppercase}
+@media (max-width:620px){.nav{width:100%;margin-left:0}.hero{padding:40px 20px 10px}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-in">
+    <div>
+      <div class="mark"><span class="a">A</span><span class="o">O</span></div>
+      <div class="tag">Identity in Every Pixel</div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="custom.html">Custom</a>
+      <a href="merch.html" class="here">Merch</a>
+      <a href="watch.html">Watch</a>
+      <a href="stories.html">Stories</a>
+      <a href="https://anomarsty.lol" class="shop">Shop</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">AO Merch</div>
+  <h1>Wear the Neon</h1>
+  <p class="lede">High-impact neon identity art on apparel and gear. Physical items ship from the print shop — digital packs are instant downloads from the store.</p>
+</section>
+
+<section class="section">
+  <div class="slabel">Featured</div>
+  <div class="grid">
+
+    <a class="card" href="https://anomoriginals.myspreadshop.com" target="_blank" rel="noopener">
+      <div class="top t-mag">▣</div>
+      <div class="body">
+        <h3>Hoodies &amp; Tees</h3>
+        <p>Neon graphics on apparel — hoodies, shirts, and more. Printed and shipped for you.</p>
+        <span class="go ext">Shop apparel →</span>
+      </div>
+    </a>
+
+    <a class="card" href="https://anomarsty.lol">
+      <div class="top t-cyan">✦</div>
+      <div class="body">
+        <h3>Sticker Packs</h3>
+        <p>High-contrast neon sticker and emote packs — instant digital download.</p>
+        <span class="go buy">Get the packs →</span>
+      </div>
+    </a>
+
+    <a class="card" href="https://anomarsty.lol">
+      <div class="top t-cyan">▧</div>
+      <div class="body">
+        <h3>Poster &amp; Wall Art</h3>
+        <p>Neon backgrounds and scenes, full resolution — print them or set them as wallpaper.</p>
+        <span class="go buy">Browse the shop →</span>
+      </div>
+    </a>
+
+    <a class="card" href="https://anomarsty.lol">
+      <div class="top t-gold">◆</div>
+      <div class="body">
+        <h3>Identity Packs</h3>
+        <p>Profile art, backgrounds, and emotes bundled together — build your whole look.</p>
+        <span class="go buy">Shop identity packs →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="steps">
+  <h2>How It Works</h2>
+  <div class="step"><div class="n">1</div><p><b>Pick your item.</b> Apparel ships from the print shop. Digital packs download instantly from the store.</p></div>
+  <div class="step"><div class="n">2</div><p><b>Choose your style.</b> Hoodies, tees, stickers, wall art, or full identity bundles.</p></div>
+  <div class="step"><div class="n">3</div><p><b>Check out.</b> Apparel through the print shop; digital art through PayPal on the store.</p></div>
+  <div class="step"><div class="n">4</div><p><b>Wear it, post it, use it.</b> Your neon, your identity, everywhere your name goes.</p></div>
+</section>
+
+<div class="cta-wrap">
+  <a class="cta" href="https://anomarsty.lol">Visit the Shop</a>
+</div>
+
+<footer><div class="sig">AO · Anom Originals · Woodbridge, VA · Identity in Every Pixel</div></footer>
+</body>
+</html>
