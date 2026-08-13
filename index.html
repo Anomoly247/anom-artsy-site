@@ -1,203 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AO — Anom Originals · Identity in Every Pixel</title>
-<meta name="description" content="Neon identity art, digital collectibles, kids' stories and games. Built by Eliza Wood. Identity in Every Pixel.">
-<meta property="og:title" content="AO — Anom Originals">
-<meta property="og:description" content="Neon identity art, digital collectibles, kids' stories and games. Identity in Every Pixel.">
+<title>AO Universe — Anom Originals</title>
+<meta name="description" content="Everything connected. Everything designed. Everything AO. The home of Anom Originals — digital art, community, and the Anomoly Archive.">
+
+<meta property="og:title" content="AO Universe — Anom Originals">
+<meta property="og:description" content="Everything connected. Everything designed. Everything AO.">
+<meta property="og:image" content="/AO_Universe_Seal_1024_onblack.png">
+<meta property="og:url" content="https://anomartsy.xyz">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/AO_Universe_Seal_mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/AO_Universe_Seal_avatar_180.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@400;700&family=Inter:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --void:#0a0a0f; --panel:#12121a; --edge:#1f1f2b;
-  --cyan:#00eaff; --magenta:#ff00c8; --gold:#e8b64c;
-  --ash:#7a7a8c; --bone:#e8e8f0;
-  --mono:'Space Mono',ui-monospace,monospace;
-  --body:'Inter',system-ui,sans-serif;
+  --void:#04040a;
+  --panel:#070611;
+  --cyan:#22d3ee;
+  --cyan-lit:#a5f3fc;
+  --magenta:#ff2fd0;
+  --violet:#a855f7;
+  --violet-lit:#d8b4fe;
+  --blue:#3b82f6;
+  --teal:#14b8a6;
+  --gold:#e8b64c;
+  --ink:#f4f4f6;
+  --ink-dim:#8a8a95;
+  --ink-faint:#5f5f6b;
+  --rule:#1e1e2b;
+  --measure:1160px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--void);color:var(--bone);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
-  background:repeating-linear-gradient(180deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%}
 
-/* ---------- nav ---------- */
-.hdr{position:sticky;top:0;z-index:40;background:rgba(10,10,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
-.hdr-in{max-width:1180px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.mark{font-family:var(--mono);font-weight:700;font-size:1.4rem;letter-spacing:.16em;line-height:1}
-.mark .a{color:var(--cyan)}.mark .o{color:var(--magenta)}
-.tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;color:var(--ash);text-transform:uppercase}
-.nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
-.nav a{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ash);padding:7px 11px;border:1px solid transparent;transition:all .15s}
-.nav a:hover,.nav a:focus-visible{color:var(--bone);border-color:var(--edge)}
-.nav a.shop{color:var(--gold);border-color:rgba(232,182,76,.4)}
-.nav a.shop:hover{background:var(--gold);color:var(--void);font-weight:700}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--ink);
+  font-family:Inter,system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--cyan);text-decoration:none}
+a:hover{color:var(--cyan-lit)}
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:3px;
+  border-radius:2px;
+}
+img,svg{display:block;max-width:100%}
+
+.wrap{width:100%;max-width:var(--measure);margin:0 auto;padding:0 28px}
+
+.eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin:0 0 14px;
+}
+.eyebrow.gold{color:var(--gold)}
+.eyebrow.magenta{color:var(--magenta)}
+
+h1,h2,h3{font-family:Gelasio,Georgia,serif;font-weight:700;line-height:1.15;margin:0}
+h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.01em}
+h3{font-size:19px;font-weight:700}
+
+/* ---------- header ---------- */
+.site-head{
+  position:sticky;top:0;z-index:50;
+  background:rgba(4,4,10,.82);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.head-in{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;padding:14px 28px;max-width:var(--measure);margin:0 auto;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-name{
+  font-family:'Space Mono',monospace;font-weight:700;
+  font-size:13px;letter-spacing:.16em;color:var(--ink);
+}
+.nav{display:flex;gap:26px;flex-wrap:wrap}
+.nav a{
+  font-size:14px;color:var(--ink-dim);
+  border-bottom:1px solid transparent;padding-bottom:2px;
+}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--cyan)}
 
 /* ---------- hero ---------- */
-.hero{max-width:1180px;margin:0 auto;padding:70px 20px 40px;position:relative;z-index:2}
-.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--magenta);text-transform:uppercase;margin-bottom:18px}
-h1{font-family:var(--mono);font-weight:700;line-height:1.03;font-size:clamp(2.2rem,7.5vw,4.4rem);text-transform:uppercase}
-h1 em{font-style:normal;color:var(--gold)}
-.lede{max-width:54ch;margin-top:22px;color:#b9b9c8;font-size:1.05rem}
-.cta{margin-top:30px;display:flex;gap:11px;flex-wrap:wrap}
-.btn{font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:13px 22px;border-radius:2px;transition:all .15s}
-.btn.p{background:var(--gold);color:var(--void)}
-.btn.p:hover,.btn.p:focus-visible{filter:brightness(1.14)}
-.btn.s{border:1px solid var(--edge);color:var(--bone)}
-.btn.s:hover,.btn.s:focus-visible{border-color:var(--cyan);color:var(--cyan)}
+.hero{position:relative;overflow:hidden;padding:96px 0 104px}
+.hero-field{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;opacity:.85;
+}
+.hero-in{position:relative;text-align:center;max-width:820px;margin:0 auto;padding:0 28px}
+.seal{width:min(280px,62vw);margin:0 auto 34px}
+.hero h1{
+  font-size:clamp(38px,6.4vw,70px);
+  letter-spacing:.02em;margin:0 0 8px;
+}
+.hero .rule{
+  width:120px;height:1.5px;background:var(--gold);
+  margin:22px auto;opacity:.9;
+}
+.tagline{
+  font-size:clamp(14px,1.9vw,17px);
+  letter-spacing:.06em;color:var(--cyan);margin:0;
+}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:38px}
+.btn{
+  font-family:'Space Mono',monospace;font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:13px 24px;border-radius:2px;
+  border:1px solid var(--rule);color:var(--ink-dim);
+  background:transparent;cursor:pointer;transition:all .18s ease;
+}
+.btn:hover{color:var(--ink);border-color:var(--cyan)}
+.btn.lead{border-color:var(--cyan);color:var(--cyan)}
+.btn.lead:hover{background:rgba(34,211,238,.09);color:var(--cyan-lit)}
 
-/* ---------- section ---------- */
-.sec{max-width:1180px;margin:0 auto;padding:34px 20px 0;position:relative;z-index:2}
-.slabel{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;color:var(--ash);text-transform:uppercase;margin-bottom:16px}
+/* ---------- sections ---------- */
+section{padding:96px 0}
+.divider{height:1px;background:var(--rule);max-width:var(--measure);margin:0 auto}
 
-/* ---------- cards ---------- */
-.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.card{background:var(--panel);border:1px solid var(--edge);padding:22px 20px 24px;position:relative;display:block;transition:border-color .18s,transform .18s}
-.card:hover{border-color:var(--ash);transform:translateY(-2px)}
-.card .brk{position:absolute;width:10px;height:10px;opacity:0;transition:opacity .18s}
-.card:hover .brk{opacity:1}
-.brk.tl{top:5px;left:5px;border-top:1.5px solid;border-left:1.5px solid}
-.brk.br{bottom:5px;right:5px;border-bottom:1.5px solid;border-right:1.5px solid}
-.c-cyan{color:var(--cyan)}.c-mag{color:var(--magenta)}.c-gold{color:var(--gold)}
-.card h3{font-family:var(--mono);font-weight:700;font-size:1rem;margin-bottom:8px;letter-spacing:.02em}
-.card p{font-size:.84rem;color:var(--ash);line-height:1.5}
-.card .go{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;margin-top:14px;display:block;color:var(--cyan)}
-.card .live{position:absolute;top:12px;right:14px;font-family:var(--mono);font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(232,182,76,.45);padding:3px 7px}
+.thesis{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.thesis p{margin:0 0 20px;color:#c9c9d2}
+.thesis p:last-child{margin-bottom:0}
+.pull{
+  font-family:Gelasio,Georgia,serif;font-size:23px;line-height:1.45;
+  color:var(--ink);border-left:2px solid var(--gold);
+  padding-left:26px;margin:0;
+}
 
-/* ---------- elsewhere ---------- */
-.links{display:flex;gap:9px;flex-wrap:wrap}
-.links a{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;border:1px solid var(--edge);color:var(--ash);padding:10px 15px;transition:all .15s}
-.links a:hover,.links a:focus-visible{color:var(--bone);border-color:var(--ash)}
+/* ---------- divisions ---------- */
+.map-holder{max-width:760px;margin:8px auto 0}
+.legend{
+  display:flex;gap:28px;justify-content:center;flex-wrap:wrap;
+  margin-top:26px;font-size:13px;color:var(--ink-dim);
+}
+.legend span{display:flex;align-items:center;gap:8px}
+.dot{width:11px;height:11px;border-radius:50%;flex:none}
+.dot.a{background:var(--cyan)}
+.dot.b{background:var(--magenta)}
+.dot.c{background:var(--gold)}
+.map-note{
+  text-align:center;color:var(--ink-faint);font-size:13px;margin:18px 0 0;
+}
 
-/* ---------- about ---------- */
-.about{background:var(--panel);border:1px solid var(--edge);padding:26px 24px;position:relative}
-.about::before,.about::after{content:"";position:absolute;width:9px;height:9px;border-color:var(--magenta);border-style:solid}
-.about::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
-.about::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
-.about p{font-size:.92rem;color:#b4b4c4;max-width:66ch;margin-bottom:11px;line-height:1.65}
-.about p:last-child{margin-bottom:0}
-.about b{color:var(--bone);font-weight:600}
+/* ---------- closing ---------- */
+.closing{position:relative;overflow:hidden;padding:104px 0}
+.lattice{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.62}
+.closing-in{
+  position:relative;max-width:660px;margin:0 auto;padding:44px 34px;
+  background:rgba(4,4,10,.9);border:1px solid rgba(34,211,238,.28);
+  border-radius:12px;text-align:center;
+}
+.statement{
+  font-family:Gelasio,Georgia,serif;font-size:clamp(20px,3vw,27px);
+  line-height:1.45;margin:0;color:var(--ink);
+}
+.attrib{
+  font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.18em;color:var(--cyan);margin:22px 0 0;
+}
 
-footer{max-width:1180px;margin:60px auto 0;padding:24px 20px 40px;border-top:1px solid var(--edge);position:relative;z-index:2}
-footer .sig{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:#44445a;text-transform:uppercase}
+/* ---------- footer ---------- */
+.site-foot{border-top:1px solid var(--rule);padding:44px 0 56px}
+.foot-in{
+  display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;
+  align-items:flex-start;
+}
+.foot-links{display:flex;gap:26px;flex-wrap:wrap;font-size:14px}
+.foot-links a{color:var(--ink-dim)}
+.foot-links a:hover{color:var(--ink)}
+.foot-meta{
+  font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.1em;color:var(--ink-faint);
+}
 
-:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
-@media (max-width:620px){
-  .nav{width:100%;margin-left:0}
-  .hero{padding:44px 20px 28px}
+/* ---------- web animation ---------- */
+.thread-base{fill:none;stroke-width:1;stroke-opacity:.26}
+.thread-flow{
+  fill:none;stroke-width:1.6;stroke-linecap:round;
+  stroke-dasharray:20 70;animation:flow 3.6s linear infinite;
+}
+@keyframes flow{to{stroke-dashoffset:-90}}
+.node-halo{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.5}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .thread-flow,.node-halo{animation:none}
+  .thread-flow{stroke-dasharray:none;stroke-opacity:.5}
+}
+
+@media (max-width:820px){
+  .thesis{grid-template-columns:1fr;gap:34px}
+  section{padding:72px 0}
+  .hero{padding:64px 0 76px}
+  .nav{gap:18px}
+  .nav a{font-size:13px}
+}
+@media (max-width:560px){
+  .head-in{padding:12px 20px}
+  .brand-name{font-size:11px;letter-spacing:.12em}
+  .nav{gap:14px}
+  .wrap{padding:0 20px}
 }
 </style>
 </head>
 <body>
 
-<header class="hdr">
-  <div class="hdr-in">
-    <div>
-      <div class="mark"><span class="a">A</span><span class="o">O</span></div>
-      <div class="tag">Identity in Every Pixel</div>
-    </div>
-    <nav class="nav">
-      <a href="gallery.html">Gallery</a>
-      <a href="custom.html">Custom</a>
-      <a href="kids-corner.html">Kids</a>
-      <a href="watch.html">Watch</a>
-      <a href="games.html">Games</a>
-      <a href="stories.html">Stories</a>
-      <a href="about.html">About</a>
-      <a href="https://anomarsty.lol" class="shop">Shop</a>
+<header class="site-head">
+  <div class="head-in">
+    <a class="brand" href="/" aria-label="AO Universe home">
+      <svg width="30" height="30" viewBox="0 0 200 200" role="img" aria-label="AO Universe seal">
+        <defs>
+          <linearGradient id="hm" x1="0" y1="0.14" x2="1" y2="0.86">
+            <stop offset="0" stop-color="#ff2fd0"/><stop offset="0.32" stop-color="#a855f7"/>
+            <stop offset="0.64" stop-color="#3b82f6"/><stop offset="1" stop-color="#00eaff"/>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="90" fill="#070611"/>
+        <circle cx="100" cy="100" r="88" fill="none" stroke="url(#hm)" stroke-width="9"/>
+        <text x="100" y="126" text-anchor="middle" font-family="Gelasio,Georgia,serif"
+              font-size="78" font-weight="700" fill="#5ff3ff">AO</text>
+      </svg>
+      <span class="brand-name">ANOM ORIGINALS</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="/gallery.html">Gallery</a>
+      <a href="https://anomarsty.lol">Shop</a>
+      <a href="/kids-corner.html">Kids Corner</a>
+      <a href="/watch.html">Watch</a>
+      <a href="/ao-cosmology.html">Lore</a>
+      <a href="/about.html">About</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
-  <div class="eyebrow">Anom Originals · Since 2019</div>
-  <h1>Art that looks<br>like <em>somebody</em>,<br>not everybody</h1>
-  <p class="lede">Neon identity art, digital collectibles, kids' stories and small strange games. Made by one person in Virginia, with a dog and a cat who think they run the place.</p>
-  <div class="cta">
-    <a class="btn p" href="https://anomarsty.lol">Visit the Shop</a>
-    <a class="btn s" href="custom.html">Commission a Piece</a>
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-title">
+  <svg class="hero-field" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#22d3ee" stroke-width="0.8" opacity="0.22">
+      <ellipse cx="600" cy="350" rx="470" ry="160"/>
+      <ellipse cx="600" cy="350" rx="470" ry="160" transform="rotate(60 600 350)"/>
+      <ellipse cx="600" cy="350" rx="470" ry="160" transform="rotate(-60 600 350)"/>
+    </g>
+    <g fill="none" stroke="#ff2fd0" stroke-width="0.8" opacity="0.18">
+      <ellipse cx="600" cy="350" rx="470" ry="160" transform="rotate(30 600 350)"/>
+      <ellipse cx="600" cy="350" rx="470" ry="160" transform="rotate(-30 600 350)"/>
+      <ellipse cx="600" cy="350" rx="310" ry="310"/>
+    </g>
+    <g fill="none" stroke="#e8b64c" stroke-width="0.7" opacity="0.18">
+      <ellipse cx="600" cy="350" rx="470" ry="160" transform="rotate(90 600 350)"/>
+      <ellipse cx="600" cy="350" rx="200" ry="200"/>
+    </g>
+    <g fill="#22d3ee" opacity="0.85">
+      <circle cx="1070" cy="350" r="9"/><circle cx="130" cy="350" r="9"/>
+      <circle cx="600" cy="40" r="7"/><circle cx="600" cy="660" r="7"/>
+    </g>
+    <g fill="#ff2fd0" opacity="0.8">
+      <circle cx="365" cy="82" r="6"/><circle cx="835" cy="618" r="6"/>
+      <circle cx="835" cy="82" r="5"/><circle cx="365" cy="618" r="5"/>
+    </g>
+    <g fill="#e8b64c" opacity="0.75">
+      <circle cx="600" cy="150" r="6"/><circle cx="600" cy="550" r="6"/>
+      <circle cx="790" cy="240" r="4"/><circle cx="410" cy="460" r="4"/>
+      <circle cx="790" cy="460" r="4"/><circle cx="410" cy="240" r="4"/>
+    </g>
+  </svg>
+
+  <div class="hero-in">
+    <!-- AO Universe seal -->
+    <svg class="seal" viewBox="0 0 200 200" role="img" aria-labelledby="seal-t seal-d">
+      <title id="seal-t">AO Universe</title>
+      <desc id="seal-d">A ring sweeping magenta to cyan around a nebula field, with light travelling along a woven web toward the AO monogram.</desc>
+      <defs>
+        <linearGradient id="ring" x1="0" y1="0.14" x2="1" y2="0.86">
+          <stop offset="0" stop-color="#ff2fd0"/><stop offset="0.3" stop-color="#a855f7"/>
+          <stop offset="0.62" stop-color="#3b82f6"/><stop offset="1" stop-color="#00eaff"/>
+        </linearGradient>
+        <radialGradient id="nv"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.95"/>
+          <stop offset="0.45" stop-color="#7c3aed" stop-opacity="0.5"/>
+          <stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+        <radialGradient id="nb"><stop offset="0" stop-color="#7dd3fc" stop-opacity="0.9"/>
+          <stop offset="0.45" stop-color="#3b82f6" stop-opacity="0.45"/>
+          <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></radialGradient>
+        <radialGradient id="np"><stop offset="0" stop-color="#f9a8d4" stop-opacity="0.92"/>
+          <stop offset="0.45" stop-color="#ec4899" stop-opacity="0.45"/>
+          <stop offset="1" stop-color="#ec4899" stop-opacity="0"/></radialGradient>
+        <radialGradient id="nt"><stop offset="0" stop-color="#5eead4" stop-opacity="0.82"/>
+          <stop offset="0.45" stop-color="#14b8a6" stop-opacity="0.38"/>
+          <stop offset="1" stop-color="#14b8a6" stop-opacity="0"/></radialGradient>
+        <radialGradient id="nc"><stop offset="0" stop-color="#67e8f9" stop-opacity="0.88"/>
+          <stop offset="0.45" stop-color="#06b6d4" stop-opacity="0.42"/>
+          <stop offset="1" stop-color="#06b6d4" stop-opacity="0"/></radialGradient>
+        <radialGradient id="nm"><stop offset="0" stop-color="#ff6ee0" stop-opacity="0.88"/>
+          <stop offset="0.45" stop-color="#ff2fd0" stop-opacity="0.42"/>
+          <stop offset="1" stop-color="#ff2fd0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="cav"><stop offset="0" stop-color="#04040a" stop-opacity="0.9"/>
+          <stop offset="0.55" stop-color="#04040a" stop-opacity="0.52"/>
+          <stop offset="1" stop-color="#04040a" stop-opacity="0"/></radialGradient>
+        <radialGradient id="vig"><stop offset="0" stop-color="#04040a" stop-opacity="0"/>
+          <stop offset="0.36" stop-color="#04040a" stop-opacity="0.1"/>
+          <stop offset="0.6" stop-color="#04040a" stop-opacity="0.6"/>
+          <stop offset="0.8" stop-color="#04040a" stop-opacity="0.94"/>
+          <stop offset="1" stop-color="#04040a" stop-opacity="1"/></radialGradient>
+        <radialGradient id="jc" cx="0.34" cy="0.28" r="0.8">
+          <stop offset="0" stop-color="#fff"/><stop offset="0.45" stop-color="#67e8f9"/>
+          <stop offset="1" stop-color="#0e6b7d"/></radialGradient>
+        <radialGradient id="jv" cx="0.34" cy="0.28" r="0.8">
+          <stop offset="0" stop-color="#fff"/><stop offset="0.45" stop-color="#d8b4fe"/>
+          <stop offset="1" stop-color="#5b21b6"/></radialGradient>
+        <clipPath id="disc"><circle cx="100" cy="100" r="84"/></clipPath>
+      </defs>
+
+      <circle cx="100" cy="100" r="84" fill="#070611"/>
+      <g clip-path="url(#disc)">
+        <ellipse cx="100" cy="60" rx="36.8" ry="27.2" fill="url(#nc)"/>
+        <ellipse cx="66.4" cy="74.4" rx="38.4" ry="30.4" fill="url(#nv)" transform="rotate(-20 66.4 74.4)"/>
+        <ellipse cx="135.2" cy="76" rx="36.8" ry="28.8" fill="url(#nb)" transform="rotate(18 135.2 76)"/>
+        <ellipse cx="138.4" cy="124" rx="38.4" ry="30.4" fill="url(#np)" transform="rotate(-14 138.4 124)"/>
+        <ellipse cx="63.2" cy="125.6" rx="36.8" ry="28.8" fill="url(#nt)" transform="rotate(16 63.2 125.6)"/>
+        <ellipse cx="100" cy="140" rx="35.2" ry="25.6" fill="url(#nm)"/>
+        <ellipse cx="77.6" cy="101.6" rx="24" ry="19.2" fill="url(#nv)"/>
+        <ellipse cx="124" cy="100" rx="22.4" ry="17.6" fill="url(#np)"/>
+        <ellipse cx="100" cy="100.8" rx="36.8" ry="24" fill="url(#cav)"/>
+        <g fill="#fff">
+          <circle cx="72.8" cy="73.6" r="1.1" opacity=".9"/><circle cx="128.8" cy="78.4" r="1" opacity=".85"/>
+          <circle cx="119.2" cy="132" r="1.05" opacity=".85"/><circle cx="78.4" cy="133.6" r=".9" opacity=".8"/>
+          <circle cx="100" cy="90.4" r=".8" opacity=".8"/><circle cx="60" cy="98.4" r=".75" opacity=".7"/>
+          <circle cx="141.6" cy="98.4" r=".8" opacity=".7"/><circle cx="100" cy="148" r=".75" opacity=".65"/>
+        </g>
+        <g fill="#67e8f9">
+          <circle cx="85.6" cy="80.8" r=".9" opacity=".8"/><circle cx="122.4" cy="84" r=".8" opacity=".7"/>
+          <circle cx="68" cy="109.6" r=".8" opacity=".7"/>
+        </g>
+        <g fill="#f9a8d4">
+          <circle cx="136.8" cy="104.4" r=".9" opacity=".8"/><circle cx="90.4" cy="140" r=".75" opacity=".65"/>
+        </g>
+        <g fill="#fbbf24">
+          <circle cx="106.4" cy="84.8" r=".8" opacity=".75"/><circle cx="63.2" cy="104.8" r=".65" opacity=".6"/>
+        </g>
+        <circle cx="100" cy="100" r="84" fill="url(#vig)"/>
+      </g>
+
+      <g clip-path="url(#disc)">
+        <g class="threads">
+          <path class="thread-base" stroke="#a5f3fc" d="M 100 34.4 Q 106.6 98.2 132.8 156.8"/>
+          <path class="thread-base" stroke="#d8b4fe" d="M 132.8 43.2 Q 106.6 101.8 100 165.6"/>
+          <path class="thread-base" stroke="#a5f3fc" d="M 156.8 67.2 Q 104.8 104.8 67.2 156.8"/>
+          <path class="thread-base" stroke="#d8b4fe" d="M 165.6 100 Q 101.8 106.6 43.2 132.8"/>
+          <path class="thread-base" stroke="#a5f3fc" d="M 156.8 132.8 Q 98.2 106.6 34.4 100"/>
+          <path class="thread-base" stroke="#d8b4fe" d="M 132.8 156.8 Q 95.2 104.8 43.2 67.2"/>
+          <path class="thread-base" stroke="#a5f3fc" d="M 100 165.6 Q 93.4 101.8 67.2 43.2"/>
+          <path class="thread-base" stroke="#d8b4fe" d="M 67.2 156.8 Q 93.4 98.2 100 34.4"/>
+          <path class="thread-base" stroke="#a5f3fc" d="M 43.2 132.8 Q 95.2 95.2 132.8 43.2"/>
+          <path class="thread-base" stroke="#d8b4fe" d="M 34.4 100 Q 98.2 93.4 156.8 67.2"/>
+          <path class="thread-base" stroke="#a5f3fc" d="M 43.2 67.2 Q 101.8 93.4 165.6 100"/>
+          <path class="thread-base" stroke="#d8b4fe" d="M 67.2 43.2 Q 104.8 95.2 156.8 132.8"/>
+          <circle class="thread-base" cx="100" cy="100" r="65.6" stroke="#e8b64c" opacity=".3"/>
+
+          <path class="thread-flow" stroke="#ecfeff" style="animation-delay:0s" d="M 100 34.4 Q 106.6 98.2 132.8 156.8"/>
+          <path class="thread-flow" stroke="#f3e8ff" style="animation-delay:-.3s" d="M 132.8 43.2 Q 106.6 101.8 100 165.6"/>
+          <path class="thread-flow" stroke="#ecfeff" style="animation-delay:-.6s" d="M 156.8 67.2 Q 104.8 104.8 67.2 156.8"/>
+          <path class="thread-flow" stroke="#f3e8ff" style="animation-delay:-.9s" d="M 165.6 100 Q 101.8 106.6 43.2 132.8"/>
+          <path class="thread-flow" stroke="#ecfeff" style="animation-delay:-1.2s" d="M 156.8 132.8 Q 98.2 106.6 34.4 100"/>
+          <path class="thread-flow" stroke="#f3e8ff" style="animation-delay:-1.5s" d="M 132.8 156.8 Q 95.2 104.8 43.2 67.2"/>
+          <path class="thread-flow" stroke="#ecfeff" style="animation-delay:-1.8s" d="M 100 165.6 Q 93.4 101.8 67.2 43.2"/>
+          <path class="thread-flow" stroke="#f3e8ff" style="animation-delay:-2.1s" d="M 67.2 156.8 Q 93.4 98.2 100 34.4"/>
+          <path class="thread-flow" stroke="#ecfeff" style="animation-delay:-2.4s" d="M 43.2 132.8 Q 95.2 95.2 132.8 43.2"/>
+          <path class="thread-flow" stroke="#f3e8ff" style="animation-delay:-2.7s" d="M 34.4 100 Q 98.2 93.4 156.8 67.2"/>
+          <path class="thread-flow" stroke="#ecfeff" style="animation-delay:-3s" d="M 43.2 67.2 Q 101.8 93.4 165.6 100"/>
+          <path class="thread-flow" stroke="#f3e8ff" style="animation-delay:-3.3s" d="M 67.2 43.2 Q 104.8 95.2 156.8 132.8"/>
+        </g>
+
+        <g fill="#67e8f9" opacity=".22">
+          <circle class="node-halo" cx="100" cy="34.4" r="8.8" style="animation-delay:0s"/>
+          <circle class="node-halo" cx="165.6" cy="100" r="8.8" style="animation-delay:-.7s"/>
+          <circle class="node-halo" cx="100" cy="165.6" r="8.8" style="animation-delay:-1.4s"/>
+          <circle class="node-halo" cx="34.4" cy="100" r="8.8" style="animation-delay:-2.1s"/>
+        </g>
+        <g fill="#d8b4fe" opacity=".18">
+          <circle class="node-halo" cx="132.8" cy="43.2" r="7.2" style="animation-delay:-.35s"/>
+          <circle class="node-halo" cx="156.8" cy="132.8" r="7.2" style="animation-delay:-1.05s"/>
+          <circle class="node-halo" cx="67.2" cy="156.8" r="7.2" style="animation-delay:-1.75s"/>
+          <circle class="node-halo" cx="43.2" cy="67.2" r="7.2" style="animation-delay:-2.45s"/>
+        </g>
+        <circle cx="100" cy="34.4" r="3.6" fill="url(#jc)"/>
+        <circle cx="165.6" cy="100" r="3.6" fill="url(#jc)"/>
+        <circle cx="100" cy="165.6" r="3.6" fill="url(#jc)"/>
+        <circle cx="34.4" cy="100" r="3.6" fill="url(#jc)"/>
+        <circle cx="132.8" cy="43.2" r="2.8" fill="url(#jv)"/>
+        <circle cx="156.8" cy="67.2" r="2.8" fill="url(#jv)"/>
+        <circle cx="156.8" cy="132.8" r="2.8" fill="url(#jv)"/>
+        <circle cx="132.8" cy="156.8" r="2.8" fill="url(#jv)"/>
+        <circle cx="67.2" cy="156.8" r="2.8" fill="url(#jv)"/>
+        <circle cx="43.2" cy="132.8" r="2.8" fill="url(#jv)"/>
+        <circle cx="43.2" cy="67.2" r="2.8" fill="url(#jv)"/>
+        <circle cx="67.2" cy="43.2" r="2.8" fill="url(#jv)"/>
+      </g>
+
+      <circle cx="100" cy="100" r="99" fill="none" stroke="url(#ring)" stroke-width="1.6" opacity=".11"/>
+      <circle cx="100" cy="100" r="93.6" fill="none" stroke="url(#ring)" stroke-width="2.4" opacity=".24"/>
+      <circle cx="100" cy="100" r="88" fill="none" stroke="url(#ring)" stroke-width="4"/>
+      <text x="100" y="114.4" text-anchor="middle" font-family="Gelasio,Georgia,serif"
+            font-size="56" font-weight="700" fill="#22d3ee">AO</text>
+      <rect x="60" y="126.6" width="80" height="1" fill="#e8b64c" opacity=".9"/>
+      <text x="100" y="146.4" text-anchor="middle" font-family="Inter,sans-serif"
+            font-size="8.8" font-weight="500" letter-spacing="4.4" fill="#e8b64c">UNIVERSE</text>
+    </svg>
+
+    <h1 id="hero-title">AO Universe</h1>
+    <div class="rule"></div>
+    <p class="tagline">Everything connected. Everything designed. Everything AO.</p>
+
+    <div class="cta-row">
+      <a class="btn lead" href="https://anomarsty.lol">Enter the Archive</a>
+      <a class="btn" href="/ao-cosmology.html">Read the lore</a>
+    </div>
   </div>
 </section>
 
-<section class="sec">
-  <div class="slabel">What's here</div>
-  <div class="cards">
+<div class="divider"></div>
 
-    <a class="card" href="https://anomarsty.lol">
-      <span class="brk tl c-gold"></span><span class="brk br c-gold"></span>
-      <span class="live">Open</span>
-      <h3>The Anomoly Archive</h3>
-      <p>Twenty backgrounds, emote packs and profile pieces. Pay once, keep the full-resolution file. From $5.</p>
-      <span class="go">anomarsty.lol →</span>
-    </a>
-
-    <a class="card" href="custom.html">
-      <span class="brk tl c-mag"></span><span class="brk br c-mag"></span>
-      <h3>Custom Portraits</h3>
-      <p>Neon identity art built around one person — your colours, your energy, your face if you want it there.</p>
-      <span class="go">Start a commission →</span>
-    </a>
-
-    <a class="card" href="kids-corner.html">
-      <span class="brk tl c-cyan"></span><span class="brk br c-cyan"></span>
-      <h3>Anom's Corner</h3>
-      <p>Stories and characters for younger readers — Pixel &amp; Dot, and the ongoing nonsense of Tater and Clifford.</p>
-      <span class="go">Take a look →</span>
-    </a>
-
-    <a class="card" href="games.html">
-      <span class="brk tl c-cyan"></span><span class="brk br c-cyan"></span>
-      <h3>Off Grid</h3>
-      <p>A text game about surviving without the grid. There's a version for kids and a version that isn't.</p>
-      <span class="go">Play →</span>
-    </a>
-
-    <a class="card" href="gallery.html">
-      <span class="brk tl c-mag"></span><span class="brk br c-mag"></span>
-      <h3>Gallery</h3>
-      <p>Work from six years of making things — portraits, backgrounds, badges, and whatever else turned up.</p>
-      <span class="go">Browse →</span>
-    </a>
-
-    <a class="card" href="ao-cosmology.html">
-      <span class="brk tl c-gold"></span><span class="brk br c-gold"></span>
-      <h3>AO Cosmology</h3>
-      <p>The lore. Where the AO Universe came from, how it's put together, and what lives in it.</p>
-      <span class="go">Read the Codex →</span>
-    </a>
-
+<!-- ============ THESIS ============ -->
+<section aria-labelledby="thesis-title">
+  <div class="wrap thesis">
+    <div>
+      <p class="eyebrow">What this is</p>
+      <h2 id="thesis-title">One studio.<br>Many worlds.</h2>
+      <p style="margin-top:22px">AO is a creative-tech studio built by one person since 2019 — digital art, character design, merchandise, children's content, community software, and the brand systems that hold them together.</p>
+      <p>The parts are not separate ventures. Art made in one place becomes merchandise in another, a character in a third, a lesson in a fourth. What one division learns, the rest inherit.</p>
+    </div>
+    <div>
+      <p class="pull">The web is how we find and grow our identity. Every connection makes the next one easier to see.</p>
+      <p style="margin-top:28px;color:#c9c9d2">That idea is why this page looks the way it does. The divisions below aren't a chart of departments — they're a map of things reaching toward each other.</p>
+    </div>
   </div>
 </section>
 
-<section class="sec">
-  <div class="slabel">Elsewhere</div>
-  <div class="links">
-    <a href="https://www.facebook.com/anomoriginals">Facebook</a>
-    <a href="https://giphy.com/channel/anomoriginals247">Giphy Stickers</a>
-    <a href="https://anomoriginals.myspreadshop.com">Merch Store</a>
-    <a href="https://github.com/Anomoly247">GitHub</a>
-    <a href="contact.html">Contact</a>
+<div class="divider"></div>
+
+<!-- ============ DIVISIONS ============ -->
+<section id="universe" aria-labelledby="div-title">
+  <div class="wrap" style="text-align:center">
+    <p class="eyebrow magenta">The map</p>
+    <h2 id="div-title">Twelve divisions, one system</h2>
+  </div>
+
+  <div class="map-holder">
+    <svg viewBox="0 0 680 500" role="img" aria-labelledby="map-t map-d">
+      <title id="map-t">The twelve AO divisions</title>
+      <desc id="map-d">Twelve worlds ringed around a central AO seal and joined by curving woven threads. Cyan worlds are active, magenta in build, gold planned.</desc>
+      <defs>
+        <radialGradient id="wc" cx="0.34" cy="0.28" r="0.8">
+          <stop offset="0" stop-color="#c9fbff"/><stop offset="0.45" stop-color="#00eaff"/>
+          <stop offset="1" stop-color="#00596b"/></radialGradient>
+        <radialGradient id="wm" cx="0.34" cy="0.28" r="0.8">
+          <stop offset="0" stop-color="#ffc4ef"/><stop offset="0.45" stop-color="#ff2fd0"/>
+          <stop offset="1" stop-color="#6b0057"/></radialGradient>
+        <radialGradient id="wg" cx="0.34" cy="0.28" r="0.8">
+          <stop offset="0" stop-color="#fff0cd"/><stop offset="0.45" stop-color="#e8b64c"/>
+          <stop offset="1" stop-color="#6b4f14"/></radialGradient>
+        <linearGradient id="cr" x1="0" y1="0.15" x2="1" y2="0.85">
+          <stop offset="0" stop-color="#ff2fd0"/><stop offset="0.35" stop-color="#a855f7"/>
+          <stop offset="0.65" stop-color="#3b82f6"/><stop offset="1" stop-color="#00eaff"/></linearGradient>
+      </defs>
+
+      <circle cx="340" cy="225" r="118" fill="none" stroke="#00eaff" stroke-width="0.5" opacity="0.16"/>
+      <circle cx="340" cy="225" r="152" fill="none" stroke="#a855f7" stroke-width="0.5" opacity="0.1"/>
+
+      <g stroke="#e8b64c" stroke-width="0.5" opacity="0.18">
+        <line x1="340" y1="225" x2="340" y2="107"/><line x1="340" y1="225" x2="399" y2="123"/>
+        <line x1="340" y1="225" x2="442" y2="166"/><line x1="340" y1="225" x2="458" y2="225"/>
+        <line x1="340" y1="225" x2="442" y2="284"/><line x1="340" y1="225" x2="399" y2="327"/>
+        <line x1="340" y1="225" x2="340" y2="343"/><line x1="340" y1="225" x2="281" y2="327"/>
+        <line x1="340" y1="225" x2="238" y2="284"/><line x1="340" y1="225" x2="222" y2="225"/>
+        <line x1="340" y1="225" x2="238" y2="166"/><line x1="340" y1="225" x2="281" y2="123"/>
+      </g>
+      <g fill="none" stroke="#00eaff" stroke-width="0.8" opacity="0.3">
+        <path d="M 340 107 Q 352 222 399 327"/><path d="M 442 166 Q 356 233 281 327"/>
+        <path d="M 458 225 Q 340 249 238 284"/><path d="M 442 284 Q 328 245 222 225"/>
+        <path d="M 399 327 Q 324 233 238 166"/><path d="M 340 343 Q 328 228 281 123"/>
+      </g>
+      <g fill="none" stroke="#a855f7" stroke-width="0.8" opacity="0.28">
+        <path d="M 399 123 Q 356 217 340 343"/><path d="M 281 327 Q 352 217 340 107"/>
+        <path d="M 238 284 Q 340 201 399 123"/><path d="M 222 225 Q 352 205 442 166"/>
+        <path d="M 238 166 Q 356 217 458 225"/><path d="M 281 123 Q 340 201 442 284"/>
+      </g>
+
+      <circle cx="340" cy="225" r="62" fill="#04040a"/>
+      <circle cx="340" cy="225" r="58" fill="#0b0a16"/>
+      <path d="M 346.1 168.8 A 58 58 0 0 1 346.1 281.2" fill="none" stroke="url(#cr)" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 333.9 168.8 A 58 58 0 0 0 333.9 281.2" fill="none" stroke="url(#cr)" stroke-width="3.5" stroke-linecap="round"/>
+      <text x="340" y="228" text-anchor="middle" font-family="Gelasio,Georgia,serif" font-size="30" font-weight="700" fill="#22d3ee">AO</text>
+      <rect x="316" y="237" width="48" height="0.8" fill="#e8b64c" opacity="0.8"/>
+      <text x="340" y="254" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" letter-spacing="3" fill="#e8b64c">UNIVERSE</text>
+
+      <g opacity="0.14">
+        <circle cx="340" cy="107" r="20" fill="#00eaff"/><circle cx="399" cy="123" r="19" fill="#00eaff"/>
+        <circle cx="281" cy="123" r="19" fill="#00eaff"/>
+      </g>
+      <ellipse cx="340" cy="107" rx="20" ry="6.5" fill="none" stroke="#9ff7ff" stroke-width="0.8" opacity="0.55" transform="rotate(-18 340 107)"/>
+      <ellipse cx="399" cy="123" rx="19" ry="6" fill="none" stroke="#9ff7ff" stroke-width="0.8" opacity="0.45" transform="rotate(14 399 123)"/>
+      <ellipse cx="281" cy="123" rx="19" ry="6" fill="none" stroke="#9ff7ff" stroke-width="0.8" opacity="0.45" transform="rotate(-14 281 123)"/>
+      <circle cx="340" cy="107" r="13" fill="url(#wc)"/><circle cx="399" cy="123" r="12" fill="url(#wc)"/>
+      <circle cx="281" cy="123" r="12" fill="url(#wc)"/>
+
+      <g opacity="0.1">
+        <circle cx="442" cy="166" r="16" fill="#ff2fd0"/><circle cx="458" cy="225" r="16" fill="#ff2fd0"/>
+        <circle cx="442" cy="284" r="16" fill="#ff2fd0"/><circle cx="399" cy="327" r="16" fill="#ff2fd0"/>
+        <circle cx="340" cy="343" r="16" fill="#ff2fd0"/><circle cx="281" cy="327" r="16" fill="#ff2fd0"/>
+      </g>
+      <ellipse cx="458" cy="225" rx="16" ry="5" fill="none" stroke="#ffc4ef" stroke-width="0.7" opacity="0.4" transform="rotate(20 458 225)"/>
+      <ellipse cx="340" cy="343" rx="16" ry="5" fill="none" stroke="#ffc4ef" stroke-width="0.7" opacity="0.4" transform="rotate(-12 340 343)"/>
+      <circle cx="442" cy="166" r="10" fill="url(#wm)"/><circle cx="458" cy="225" r="10" fill="url(#wm)"/>
+      <circle cx="442" cy="284" r="10" fill="url(#wm)"/><circle cx="399" cy="327" r="10" fill="url(#wm)"/>
+      <circle cx="340" cy="343" r="10" fill="url(#wm)"/><circle cx="281" cy="327" r="10" fill="url(#wm)"/>
+
+      <g opacity="0.1">
+        <circle cx="238" cy="284" r="13" fill="#e8b64c"/><circle cx="222" cy="225" r="13" fill="#e8b64c"/>
+        <circle cx="238" cy="166" r="13" fill="#e8b64c"/>
+      </g>
+      <circle cx="238" cy="284" r="8" fill="url(#wg)"/><circle cx="222" cy="225" r="8" fill="url(#wg)"/>
+      <circle cx="238" cy="166" r="8" fill="url(#wg)"/>
+
+      <g font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#f4f4f6">
+        <text x="340" y="76" text-anchor="middle">Sanctuary</text>
+        <text x="422" y="97">Merch Systems</text>
+        <text x="258" y="97" text-anchor="end">Pixel &amp; Dot</text>
+        <text x="472" y="152">Identity Shop</text>
+        <text x="492" y="229">Color Space</text>
+        <text x="472" y="302">Payments</text>
+        <text x="422" y="358">Arcade</text>
+        <text x="340" y="378" text-anchor="middle">Kids Corner</text>
+        <text x="258" y="358" text-anchor="end">YouTube</text>
+        <text x="208" y="302" text-anchor="end">Anomoly AI</text>
+        <text x="188" y="229" text-anchor="end">Brand Kit</text>
+        <text x="208" y="152" text-anchor="end">IP &amp; Brand</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot a"></i>Active</span>
+    <span><i class="dot b"></i>In build</span>
+    <span><i class="dot c"></i>Planned</span>
+  </div>
+  <p class="map-note">Twelve divisions. Three are live, six are building, three are planned.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ CLOSING ============ -->
+<section class="closing" aria-labelledby="close-title">
+  <svg class="lattice" viewBox="0 0 1200 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g stroke="#22d3ee" stroke-width="3" opacity="0.4" fill="none" stroke-linecap="round">
+      <line x1="90" y1="52" x2="290" y2="38"/><line x1="290" y1="38" x2="500" y2="32"/>
+      <line x1="760" y1="44" x2="960" y2="58"/><line x1="960" y1="58" x2="1110" y2="120"/>
+      <line x1="1130" y1="242" x2="1150" y2="356"/><line x1="880" y1="422" x2="620" y2="436"/>
+      <line x1="620" y1="436" x2="350" y2="428"/><line x1="120" y1="406" x2="46" y2="296"/>
+      <line x1="46" y1="296" x2="52" y2="162"/><line x1="52" y1="162" x2="90" y2="52"/>
+    </g>
+    <g stroke="#ff2fd0" stroke-width="3" opacity="0.34" fill="none" stroke-linecap="round">
+      <line x1="500" y1="32" x2="760" y2="44"/><line x1="1110" y1="120" x2="1130" y2="242"/>
+      <line x1="1150" y1="356" x2="1070" y2="402"/><line x1="1070" y1="402" x2="880" y2="422"/>
+      <line x1="350" y1="428" x2="120" y2="406"/><line x1="90" y1="52" x2="210" y2="242"/>
+      <line x1="52" y1="162" x2="210" y2="242"/>
+    </g>
+    <g stroke="#e8b64c" stroke-width="2" opacity="0.34" fill="none" stroke-linecap="round">
+      <line x1="46" y1="296" x2="210" y2="242"/><line x1="290" y1="38" x2="210" y2="242"/>
+      <line x1="960" y1="58" x2="980" y2="242"/><line x1="1130" y1="242" x2="980" y2="242"/>
+      <line x1="980" y1="242" x2="1070" y2="402"/><line x1="880" y1="422" x2="980" y2="242"/>
+    </g>
+    <g fill="#22d3ee" opacity="0.9">
+      <circle cx="90" cy="52" r="9"/><circle cx="500" cy="32" r="10"/><circle cx="52" cy="162" r="7"/>
+      <circle cx="1150" cy="356" r="8"/><circle cx="620" cy="436" r="9"/><circle cx="210" cy="242" r="8"/>
+    </g>
+    <g fill="#ff2fd0" opacity="0.85">
+      <circle cx="290" cy="38" r="7"/><circle cx="960" cy="58" r="8"/><circle cx="46" cy="296" r="8"/>
+      <circle cx="880" cy="422" r="7"/><circle cx="120" cy="406" r="8"/>
+    </g>
+    <g fill="#e8b64c" opacity="0.8">
+      <circle cx="760" cy="44" r="7"/><circle cx="1110" cy="120" r="8"/><circle cx="1130" cy="242" r="7"/>
+      <circle cx="1070" cy="402" r="6"/><circle cx="350" cy="428" r="7"/><circle cx="980" cy="242" r="8"/>
+    </g>
+  </svg>
+
+  <div class="wrap">
+    <div class="closing-in">
+      <p class="eyebrow gold" id="close-title">Built to last</p>
+      <p class="statement">AO Universe is not being built to be sold. It is being built to last — to become an institution, a community, and a legacy.</p>
+      <p class="attrib">FOUNDER, ANOM ORIGINALS</p>
+    </div>
   </div>
 </section>
 
-<section class="sec">
-  <div class="slabel">Who's behind it</div>
-  <div class="about">
-    <p><b>AO is one person.</b> Eliza Wood, working from Woodbridge, Virginia, since 2019 — drawing, coding, writing and shipping all of it without a team or outside money.</p>
-    <p>The art comes first, but the whole thing is built by hand too: the site, the shop, the games. Sixteen years of moderating a large online community taught the rest — that a place is only as good as how people are treated in it.</p>
-    <p>Tater is a miniature pinscher and takes his security duties seriously. Clifford is an orange tabby and takes nothing seriously. Both appear regularly and neither has agreed to a contract.</p>
-  </div>
-</section>
+</main>
 
-<footer>
-  <div class="sig">AO · Anom Originals · Woodbridge, VA · Identity in Every Pixel</div>
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <div>
+      <p class="foot-meta" style="margin:0 0 12px">ANOM ORIGINALS · WOODBRIDGE, VA · SINCE 2019</p>
+      <div class="foot-links">
+        <a href="/gallery.html">Gallery</a>
+        <a href="https://anomarsty.lol">The Anomoly Archive</a>
+        <a href="/merch.html">Merch</a>
+        <a href="/kids-corner.html">Kids Corner</a>
+        <a href="/stories.html">Stories</a>
+        <a href="/watch.html">Watch</a>
+        <a href="/games.html">Games</a>
+        <a href="/ao-cosmology.html">Lore</a>
+        <a href="/custom.html">Commissions</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+    <p class="foot-meta" style="margin:0">anomartsy.xyz</p>
+  </div>
 </footer>
 
 </body>
