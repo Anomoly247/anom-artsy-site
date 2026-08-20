@@ -18,7 +18,7 @@ games, and the lore.
 - `ao-cosmology.html` — the AO Universe lore
 - `about.html`, `contact.html`
 
-The shop lives separately at [anomarsty.lol](https://anomarsty.lol).
+The shop lives separately at [anomarsty.lol](https://anomartsy.lol).
 
 Static HTML/CSS. Published with GitHub Pages.
 
